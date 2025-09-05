@@ -1,3 +1,4 @@
+import { hash } from "bcryptjs";
 import prismaClient from "../../lib/client.ts";
 
 interface CreateUserProps {
@@ -8,11 +9,12 @@ interface CreateUserProps {
 
 class CreateUserService {
   async execute({ name, email, password }: CreateUserProps) {
+    const passwordHash = await hash(password, 8);
     const user = await prismaClient.user.create({
       data: {
         name: name,
         email: email,
-        password: password,
+        password: passwordHash,
       },
       select: {
         name: true,
