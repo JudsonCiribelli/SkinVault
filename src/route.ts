@@ -1,8 +1,11 @@
 import { Router } from "express";
-import { ProductDetailsController } from "./controllers/product/productDetailsController.ts";
+
+import { CreateUserController } from "./controllers/user/createUserController.ts";
+import { GetUserController } from "./controllers/user/getUserController.ts";
 
 const router = Router();
 
-router.get("/product", new ProductDetailsController().handle);
+router.get("/users", new GetUserController().handle);
+router.post("/session", new CreateUserController().handle);
 
 export { router };
