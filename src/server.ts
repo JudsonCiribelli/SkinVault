@@ -1,10 +1,13 @@
 import express from "express";
 import { router } from "./route.ts";
-const server = express();
+import cors from "cors";
+import bodyParser from "body-parser";
 
-server.use(express.json());
+const server = express();
+server.use(cors());
+server.use(bodyParser.json());
 server.use(router);
 
-server.listen("3333", () => {
+server.listen(3333, () => {
   console.log("Runing on port 3333");
 });

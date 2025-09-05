@@ -1,6 +1,8 @@
-import { Router, type Request, type Response } from "express";
+import { Router } from "express";
+import { ProductDetailsController } from "./controllers/product/productDetailsController.ts";
 
 const router = Router();
-router.get("/tarefas", (req: Request, res: Response) => {});
+
+router.get("/product", new ProductDetailsController().handle);
 
 export { router };
