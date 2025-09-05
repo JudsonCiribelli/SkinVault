@@ -1,0 +1,31 @@
+{
+  "name": "skinvault",
+  "version": "1.0.0",
+  "description": "**CS2 Skin Market** é uma aplicação de e-commerce que simula a compra e venda de skins do jogo Counter-Strike 2 (CS2). O sistema permite aos usuários navegar, filtrar, comprar e vender skins, com a funcionalidade de login utilizando JWT (JSON Web Tokens) para autenticação.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node  --watch --experimental-strip-types src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JudsonCiribelli/SkinVault.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JudsonCiribelli/SkinVault/issues"
+  },
+  "homepage": "https://github.com/JudsonCiribelli/SkinVault#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "@types/node": "^24.3.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
