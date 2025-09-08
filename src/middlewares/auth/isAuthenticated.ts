@@ -13,16 +13,18 @@ export function IsAuthenticated(
   const authToken = req.headers.authorization;
 
   if (!authToken) {
-    res.status(400).send({ message: "Credenciais invalidas!" }).end();
+    res.status(400).send({ message: "Auth token is required" }).end();
   }
 
-  const [, token] = authToken?.split(" ");
+  const [, token] = authToken!.split(" ");
 
   try {
     const { sub } = jwt.verify(
       token as string,
       process.env.JWT_SECRET!
     ) as IsAuthenticatedProps;
+
+    req.userId = sub;
     return next();
   } catch (err) {
     res.status(400).send({ message: "Authorization error!" }).end();

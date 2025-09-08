@@ -25,7 +25,7 @@ class CreateUserService {
     if (!user) {
       throw new Error("User is not defined");
     }
-    return { ok: true };
+    return { user };
   }
 }
 export { CreateUserService };

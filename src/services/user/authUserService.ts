@@ -22,7 +22,7 @@ class AuthUserService {
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error("password doest match!");
+      throw new Error("password does't match!");
     }
 
     const token = jwt.sign(
@@ -34,7 +34,7 @@ class AuthUserService {
       }
     );
 
-    return { token };
+    return { token: token };
   }
 }
 
