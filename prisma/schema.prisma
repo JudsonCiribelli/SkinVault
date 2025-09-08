@@ -11,12 +11,75 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  name      String
-  email     String    @unique
-  password  String
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @default(now())
+  id             String             @id @default(uuid())
+  name           String
+  email          String             @unique
+  password       String
+  createdAt      DateTime?          @default(now())
+  updatedAt      DateTime?          @default(now())
+  purchasedItems PurchasedItem[]
+  sellingItems   SellingItem[]
+  ownedSkins     CategoryNameSkin[] @relation("UserOwnedSkins")
 
   @@map("users")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categoryItems CategoryItem[]
+}
+
+model CategoryItem {
+  id         String   @id @default(uuid())
+  categoryId String
+  name       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  category          Category           @relation(fields: [categoryId], references: [id])
+  categoryNameSkins CategoryNameSkin[]
+}
+
+model CategoryNameSkin {
+  id             String   @id @default(uuid())
+  categoryItemId String
+  name           String
+  float          Float
+  sellerName     String
+  price          Float
+  wear           String
+  imageUrl       String
+  ownerId        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  categoryItem   CategoryItem    @relation(fields: [categoryItemId], references: [id])
+  owner          User            @relation("UserOwnedSkins", fields: [ownerId], references: [id])
+  purchasedItems PurchasedItem[] @relation("SkinPurchasedItems")
+  sellingItems   SellingItem[]   @relation("SkinSellingItems")
+}
+
+model PurchasedItem {
+  id          String   @id @default(uuid())
+  userId      String
+  skinId      String
+  purchasedAt DateTime @default(now())
+
+  user User             @relation(fields: [userId], references: [id])
+  skin CategoryNameSkin @relation("SkinPurchasedItems", fields: [skinId], references: [id])
+}
+
+model SellingItem {
+  id       String   @id @default(uuid())
+  userId   String
+  skinId   String
+  price    Float
+  listedAt DateTime @default(now())
+
+  user User             @relation(fields: [userId], references: [id])
+  skin CategoryNameSkin @relation("SkinSellingItems", fields: [skinId], references: [id])
 }
