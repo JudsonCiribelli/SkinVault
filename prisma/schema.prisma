@@ -31,6 +31,7 @@ model Category {
   updatedAt DateTime @updatedAt
 
   categoryItems CategoryItem[]
+  @@map("categorys")
 }
 
 model CategoryItem {
@@ -42,6 +43,7 @@ model CategoryItem {
 
   category          Category           @relation(fields: [categoryId], references: [id])
   categoryNameSkins CategoryNameSkin[]
+  @@map("categoryItems")
 }
 
 model CategoryNameSkin {
@@ -61,6 +63,8 @@ model CategoryNameSkin {
   owner          User            @relation("UserOwnedSkins", fields: [ownerId], references: [id])
   purchasedItems PurchasedItem[] @relation("SkinPurchasedItems")
   sellingItems   SellingItem[]   @relation("SkinSellingItems")
+
+  @@map("categoryNameSkins")
 }
 
 model PurchasedItem {
@@ -71,6 +75,7 @@ model PurchasedItem {
 
   user User             @relation(fields: [userId], references: [id])
   skin CategoryNameSkin @relation("SkinPurchasedItems", fields: [skinId], references: [id])
+  @@map("PurchasedItems")
 }
 
 model SellingItem {
@@ -82,4 +87,5 @@ model SellingItem {
 
   user User             @relation(fields: [userId], references: [id])
   skin CategoryNameSkin @relation("SkinSellingItems", fields: [skinId], references: [id])
+  @@map("SellingItems")
 }
