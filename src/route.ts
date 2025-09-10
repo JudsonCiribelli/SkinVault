@@ -8,6 +8,8 @@ import { IsAuthenticated } from "./middlewares/auth/isAuthenticated.ts";
 import { GetUserByIdController } from "./controllers/user/getUserByIdController.ts";
 import { CreateCategoryController } from "./controllers/category/createCategoryController.ts";
 import uploadConfig from "./config/multer.ts";
+import { CategoryItemController } from "./controllers/categoryItem/categoryItemController.ts";
+import { CategoryNameSkinController } from "./controllers/categoryNameSkin/categoryNameSkinController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -17,5 +19,11 @@ router.get("/user/:id", IsAuthenticated, new GetUserByIdController().handle);
 router.post("/users", new CreateUserController().handle); //Autenticar
 router.post("/session", new AuthUserController().handle);
 router.post("/category", new CreateCategoryController().handle); // Autenticar
+router.post("/category/categoryItem", new CategoryItemController().handle);
+router.post(
+  "/category/categoryItem/categoryNameSkin",
+  upload.single("file"),
+  new CategoryNameSkinController().handle
+);
 
 export { router };
