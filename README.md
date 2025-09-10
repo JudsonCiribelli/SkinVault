@@ -7,7 +7,7 @@
 - **Node.js**: Para a criação do backend da aplicação.
 - **Express**: Framework para facilitar a criação de APIs RESTful.
 - **JWT (JSON Web Tokens)**: Para autenticação de usuários e manutenção de sessões.
-- **MongoDB**: Banco de dados NoSQL utilizado para armazenar informações sobre os produtos e usuários.
+- **Postgres**: Banco de dados SQL utilizado para armazenar informações sobre os produtos e usuários.
 - **Multer**: Para o upload de imagens das skins.
 - **bcryptjs**: Para criptografar senhas dos usuários.
 - **dotenv**: Para o gerenciamento de variáveis de ambiente.
