@@ -50,9 +50,9 @@ model CategoryNameSkin {
   id             String   @id @default(uuid())
   categoryItemId String
   name           String
-  float          Float
+  float          Decimal  @db.Decimal(12, 11)
   sellerName     String
-  price          Float
+  price          String
   wear           String
   imageUrl       String
   ownerId        String

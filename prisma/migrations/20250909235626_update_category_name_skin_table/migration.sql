@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "categoryNameSkins" ALTER COLUMN "float" SET DATA TYPE TEXT,
+ALTER COLUMN "price" SET DATA TYPE TEXT;
