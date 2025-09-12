@@ -3,7 +3,6 @@ import supertest from "supertest";
 import { server } from "../../src/server.ts";
 import { faker } from "@faker-js/faker";
 import prismaClient from "../../src/lib/client.ts";
-import e from "express";
 
 test("Create a new user", async () => {
   const response = await supertest(server)

@@ -8,7 +8,10 @@ class AuthUserController {
     const authUserService = new AuthUserService();
     const auth = await authUserService.execute({ email, password });
 
-    return res.status(200).send({ auth });
+    if (auth) {
+      return res.status(200).send({ auth });
+    }
+    return res.status(401).send({ message: "Invalid credentials" });
   }
 }
 export { AuthUserController };
