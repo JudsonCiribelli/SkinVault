@@ -15,7 +15,7 @@ const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 
 router.get("/users", new GetUserController().handle);
-router.get("/user/:id", IsAuthenticated, new GetUserByIdController().handle);
+router.get("/user/:id", new GetUserByIdController().handle);
 router.post("/users", new CreateUserController().handle); //Autenticar
 router.post("/session", new AuthUserController().handle);
 router.post("/category", new CreateCategoryController().handle); // Autenticar
