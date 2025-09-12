@@ -2,6 +2,7 @@ import { hash } from "bcryptjs";
 import { randomUUID } from "crypto";
 import prismaClient from "../../src/lib/client.ts";
 import { faker } from "@faker-js/faker";
+import jwt from "jsonwebtoken";
 
 export const makeUser = async () => {
   const passwordHash = randomUUID().slice(0, 8);
@@ -13,4 +14,16 @@ export const makeUser = async () => {
     },
   });
   return { user: result, passwordHash };
+};
+
+export const makeAuthenticatedUser = async () => {
+  const { user } = await makeUser();
+
+  const token = jwt.sign(
+    {
+      sub: user.id,
+    },
+    process.env.JWT_SECRET!
+  );
+  return { user, token };
 };
