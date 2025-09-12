@@ -6,7 +6,12 @@ class CreateUserController {
     const { name, email, password } = req.body;
     const createUserService = new CreateUserService();
     const user = await createUserService.execute({ name, email, password });
-    return res.status(201).send({ user });
+
+    if (!user) {
+      return res.status(400).send({ error: "User already exists" });
+    }
+
+    return res.status(201).send(user);
   }
 }
 
