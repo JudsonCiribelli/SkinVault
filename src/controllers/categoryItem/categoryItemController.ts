@@ -6,7 +6,7 @@ class CategoryItemController {
     const { id, name } = req.body;
     const categoryItemService = new CategoryItemService();
     const categoryItem = await categoryItemService.execute({ id, name });
-    return res.status(200).send({ categoryItem });
+    return res.status(200).send(categoryItem);
   }
 }
 
