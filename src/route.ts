@@ -11,33 +11,40 @@ import uploadConfig from "./config/multer.ts";
 import { CategoryItemController } from "./controllers/categoryItem/categoryItemController.ts";
 import { CategoryNameSkinController } from "./controllers/categoryNameSkin/categoryNameSkinController.ts";
 import { GetAllSkinsController } from "./controllers/categoryNameSkin/getAllSkinController.ts";
+import { ListItemsByCategoryIdController } from "./controllers/categoryNameSkin/listItemsByCategoryIdController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 
+//USER / LOGIN
 router.get("/users", new GetUserController().handle);
 router.get("/user/:id", IsAuthenticated, new GetUserByIdController().handle);
 router.post("/users", new CreateUserController().handle);
 router.post("/session", new AuthUserController().handle);
+// CATEGORY
 router.post(
   "/category",
   IsAuthenticated,
   new CreateCategoryController().handle
 );
+// CATEGORY ITEM
 router.post(
   "/category/categoryItem",
   IsAuthenticated,
   new CategoryItemController().handle
 );
+// CATEGORY NAME SKIN
 router.post(
   "/category/categoryItem/categoryNameSkin",
   IsAuthenticated,
   upload.single("file"),
   new CategoryNameSkinController().handle
 );
+router.get("/categoryNameSkin", new GetAllSkinsController().handle);
 router.get(
   "/category/categoryItem/categoryNameSkin",
-  new GetAllSkinsController().handle
+  IsAuthenticated,
+  new ListItemsByCategoryIdController().handle
 );
 
 export { router };
