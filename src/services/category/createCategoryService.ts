@@ -4,6 +4,19 @@ class CreateCategoryService {
   async execute(name: string) {
     const databaseName = name.toLocaleUpperCase().trim();
 
+    const [categoryNameAlreadyExist, category] = await Promise.all([
+      prismaClient.category.findFirst({
+        where: {
+          name: databaseName,
+        },
+      }),
+      prismaClient.category.create({
+        data: {
+          name: databaseName,
+        },
+      }),
+    ]);
+
     if (!databaseName) {
       throw new Error("Categorie name is required!");
     }
@@ -12,21 +25,9 @@ class CreateCategoryService {
       throw new Error("Categorie name is required!");
     }
 
-    const categoryNameAlreadyExist = await prismaClient.category.findFirst({
-      where: {
-        name: databaseName,
-      },
-    });
-
     if (categoryNameAlreadyExist) {
       throw new Error("database name already exist");
     }
-
-    const category = await prismaClient.category.create({
-      data: {
-        name: databaseName,
-      },
-    });
 
     return category;
   }
