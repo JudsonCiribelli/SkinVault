@@ -22,35 +22,29 @@ class CategoryNameSkinService {
     banner,
     ownerId,
   }: CategoryNameSkinProps) {
-    try {
-      const [idAlreadyExist, categoryNameSkin] = await Promise.all([
-        prismaClient.categoryNameSkin.findUnique({
-          where: {
-            id: categoryId,
-          },
-        }),
-        prismaClient.categoryNameSkin.create({
-          data: {
-            name: name,
-            categoryItemId: categoryId,
-            float: float,
-            sellerName: sellerName,
-            price: price,
-            wear: wear,
-            imageUrl: banner,
-            ownerId: ownerId,
-          },
-        }),
-      ]);
-
-      if (idAlreadyExist) {
-        throw new Error("This ID is already registered in our bank");
-      }
-
-      return { categoryNameSkin };
-    } catch (err) {
-      throw new Error("Error in register");
+    const [categoryAlreadyExists, categoryNameSkin] = await Promise.all([
+      prismaClient.categoryItem.findUnique({
+        where: {
+          id: categoryId,
+        },
+      }),
+      prismaClient.categoryNameSkin.create({
+        data: {
+          name: name,
+          categoryItemId: categoryId,
+          float: float,
+          sellerName: sellerName,
+          price: price,
+          wear: wear,
+          imageUrl: banner,
+          ownerId: ownerId,
+        },
+      }),
+    ]);
+    if (!categoryAlreadyExists) {
+      throw new Error("Category Item does not exists");
     }
+    return { categoryNameSkin };
   }
 }
 
