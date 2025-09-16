@@ -1,15 +1,15 @@
-import { fa, faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 import prismaClient from "../../src/lib/client.ts";
-import { makeCategory } from "./makeCategory.ts";
+import { makeCategoryItem } from "./makeCategory.ts";
 import { makeUser } from "./makeUser.ts";
 
 export const makeCategoryNameSkin = async () => {
-  const category = await makeCategory();
   const user = await makeUser();
+  const categoryItem = await makeCategoryItem();
   const categoryNameSkin = await prismaClient.categoryNameSkin.create({
     data: {
       name: faker.lorem.words(3).toString(),
-      categoryItemId: category.result.id,
+      categoryItemId: categoryItem.categoryItem.id,
       float: faker.number.float(),
       price: faker.lorem.words(10),
       wear: faker.lorem.words(2),
