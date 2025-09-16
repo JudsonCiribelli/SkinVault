@@ -9,3 +9,14 @@ export const makeCategory = async () => {
   });
   return { result };
 };
+
+export const makeCategoryItem = async () => {
+  const category = await makeCategory();
+  const categoryItem = await prismaClient.categoryItem.create({
+    data: {
+      name: faker.person.fullName(),
+      categoryId: category.result.id,
+    },
+  });
+  return { categoryItem };
+};
