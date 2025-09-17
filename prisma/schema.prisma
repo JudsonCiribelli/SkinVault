@@ -20,8 +20,29 @@ model User {
   purchasedItems PurchasedItem[]
   sellingItems   SellingItem[]
   ownedSkins     CategoryNameSkin[] @relation("UserOwnedSkins")
+  purchases      Order[]            @relation("UserPurchases")
+  sales          Order[]            @relation("UserSales")
 
   @@map("users")
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  sellingItemId String      @unique // 1 pedido por anúncio
+  buyerId       String
+  sellerId      String
+  pricePaid     String
+  status        OrderStatus @default(PENDING)
+  createdAt     DateTime    @default(now())
+
+  sellingItem SellingItem @relation(fields: [sellingItemId], references: [id])
+  buyer       User        @relation("UserPurchases", fields: [buyerId], references: [id])
+  seller      User        @relation("UserSales", fields: [sellerId], references: [id])
+
+
+  @@index([buyerId])
+  @@index([sellerId])
+  @@map("orders")
 }
 
 model Category {
@@ -59,6 +80,7 @@ model CategoryNameSkin {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
+
   categoryItem   CategoryItem    @relation(fields: [categoryItemId], references: [id])
   owner          User            @relation("UserOwnedSkins", fields: [ownerId], references: [id])
   purchasedItems PurchasedItem[] @relation("SkinPurchasedItems")
@@ -85,7 +107,21 @@ model SellingItem {
   price    Float
   listedAt DateTime @default(now())
 
-  user User             @relation(fields: [userId], references: [id])
-  skin CategoryNameSkin @relation("SkinSellingItems", fields: [skinId], references: [id])
+  user  User             @relation(fields: [userId], references: [id])
+  skin  CategoryNameSkin @relation("SkinSellingItems", fields: [skinId], references: [id])
+  order Order?
+
+
+  @@index([userId])
+  @@index([skinId])
+  @@index([price])
   @@map("SellingItems")
+}
+
+enum OrderStatus {
+  PENDING
+  PAYMENT_CONFIRMED
+  PAYMENT_FAILED
+  FINISHED
+  CANCELED
 }
