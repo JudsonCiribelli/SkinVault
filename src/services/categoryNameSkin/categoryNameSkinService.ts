@@ -28,6 +28,7 @@ class CategoryNameSkinService {
           id: categoryId,
         },
       }),
+
       prismaClient.categoryNameSkin.create({
         data: {
           name: name,
@@ -41,9 +42,11 @@ class CategoryNameSkinService {
         },
       }),
     ]);
+
     if (!categoryAlreadyExists) {
       throw new Error("Category Item does not exists");
     }
+
     return { categoryNameSkin };
   }
 }

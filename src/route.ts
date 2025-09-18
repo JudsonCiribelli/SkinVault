@@ -12,6 +12,7 @@ import { CategoryItemController } from "./controllers/categoryItem/categoryItemC
 import { CategoryNameSkinController } from "./controllers/categoryNameSkin/categoryNameSkinController.ts";
 import { GetAllSkinsController } from "./controllers/categoryNameSkin/getAllSkinController.ts";
 import { ListItemsByCategoryIdController } from "./controllers/categoryNameSkin/listItemsByCategoryIdController.ts";
+import { CreateSellingItemsController } from "./controllers/sellingItem/createSellingItemsController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -21,6 +22,7 @@ router.get("/users", new GetUserController().handle);
 router.get("/user/:id", IsAuthenticated, new GetUserByIdController().handle);
 router.post("/users", new CreateUserController().handle);
 router.post("/session", new AuthUserController().handle);
+
 // CATEGORY
 router.post(
   "/category",
@@ -45,6 +47,12 @@ router.get(
   "/category/categoryItem/categoryNameSkin",
   IsAuthenticated,
   new ListItemsByCategoryIdController().handle
+);
+// SALES
+router.post(
+  "/user/items",
+  IsAuthenticated,
+  new CreateSellingItemsController().handle
 );
 
 export { router };
