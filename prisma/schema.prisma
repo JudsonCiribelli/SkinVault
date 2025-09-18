@@ -28,7 +28,7 @@ model User {
 
 model Order {
   id            String      @id @default(uuid())
-  sellingItemId String      @unique // 1 pedido por anúncio
+  sellingItemId String      @unique
   buyerId       String
   sellerId      String
   pricePaid     String
@@ -81,6 +81,8 @@ model CategoryNameSkin {
   updatedAt      DateTime @updatedAt
 
 
+
+
   categoryItem   CategoryItem    @relation(fields: [categoryItemId], references: [id])
   owner          User            @relation("UserOwnedSkins", fields: [ownerId], references: [id])
   purchasedItems PurchasedItem[] @relation("SkinPurchasedItems")
@@ -104,8 +106,9 @@ model SellingItem {
   id       String   @id @default(uuid())
   userId   String
   skinId   String
-  price    Float
+  price    String
   listedAt DateTime @default(now())
+
 
   user  User             @relation(fields: [userId], references: [id])
   skin  CategoryNameSkin @relation("SkinSellingItems", fields: [skinId], references: [id])
