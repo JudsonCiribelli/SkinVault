@@ -13,6 +13,7 @@ import { CategoryNameSkinController } from "./controllers/categoryNameSkin/categ
 import { GetAllSkinsController } from "./controllers/categoryNameSkin/getAllSkinController.ts";
 import { ListItemsByCategoryIdController } from "./controllers/categoryNameSkin/listItemsByCategoryIdController.ts";
 import { CreateSellingItemsController } from "./controllers/sellingItem/createSellingItemsController.ts";
+import { CreateOrderController } from "./controllers/order/createOrderController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -54,5 +55,7 @@ router.post(
   IsAuthenticated,
   new CreateSellingItemsController().handle
 );
+//ORDER
+router.post("/order", IsAuthenticated, new CreateOrderController().handle);
 
 export { router };

@@ -80,9 +80,6 @@ model CategoryNameSkin {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-
-
-
   categoryItem   CategoryItem    @relation(fields: [categoryItemId], references: [id])
   owner          User            @relation("UserOwnedSkins", fields: [ownerId], references: [id])
   purchasedItems PurchasedItem[] @relation("SkinPurchasedItems")
