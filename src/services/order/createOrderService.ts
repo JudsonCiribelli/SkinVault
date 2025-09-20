@@ -14,7 +14,7 @@ class CreateOrderService {
     buyerId,
     pricePaid,
   }: CreateOrderProps) {
-    const itemForSale = await prismaClient.sellingItem.findFirst({
+    const itemForSale = await prismaClient.sellingItem.findUnique({
       where: {
         id: sellingItemId,
       },

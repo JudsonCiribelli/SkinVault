@@ -14,6 +14,7 @@ import { GetAllSkinsController } from "./controllers/categoryNameSkin/getAllSkin
 import { ListItemsByCategoryIdController } from "./controllers/categoryNameSkin/listItemsByCategoryIdController.ts";
 import { CreateSellingItemsController } from "./controllers/sellingItem/createSellingItemsController.ts";
 import { CreateOrderController } from "./controllers/order/createOrderController.ts";
+import { CreatePurchaseController } from "./controllers/order/createPurchaseController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -57,5 +58,10 @@ router.post(
 );
 //ORDER
 router.post("/order", IsAuthenticated, new CreateOrderController().handle);
+router.post(
+  "/order/purchase",
+  IsAuthenticated,
+  new CreatePurchaseController().handle
+);
 
 export { router };
