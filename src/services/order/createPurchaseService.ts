@@ -1,29 +1,84 @@
 import prismaClient from "../../lib/client.ts";
 
 interface CreatePurchaseProps {
-  sellerId: string;
-  sellingItemId: string;
   buyerId: string;
-  pricePaid: string;
+  sellingItemId: string;
 }
 
 class CreatePurchaseService {
-  async execute({
-    sellerId,
-    sellingItemId,
-    buyerId,
-    pricePaid,
-  }: CreatePurchaseProps) {
-    const purchaseItem = await prismaClient.order.create({
-      data: {
-        sellerId,
-        sellingItemId,
-        buyerId,
-        pricePaid,
+  async execute({ sellingItemId, buyerId }: CreatePurchaseProps) {
+    const sellingItem = await prismaClient.sellingItem.findUnique({
+      where: {
+        id: sellingItemId,
+      },
+      include: {
+        skin: true,
+        user: true,
+        order: true,
       },
     });
 
-    return { purchaseItem };
+    if (sellingItem?.order) {
+      throw new Error("This item has already been purchased");
+    }
+
+    if (!sellingItem) {
+      throw new Error("Item not found");
+    }
+
+    if (sellingItem.userId === buyerId) {
+      throw new Error("You cannot purchase the item itself");
+    }
+
+    const order = await prismaClient.order.create({
+      data: {
+        sellingItemId,
+        buyerId,
+        sellerId: sellingItem.userId,
+        pricePaid: sellingItem.price,
+        status: "PENDING",
+      },
+    });
+
+    // 3. Confirmar pagamento
+    // Aqui, você deve integrar com um gateway de pagamento para confirmar o pagamento
+    // Simulando pagamento com sucesso
+    const paymentConfirmed = true; // Este valor viria de um gateway de pagamento real
+
+    if (!paymentConfirmed) {
+      await prismaClient.order.update({
+        where: { id: order.id },
+        data: { status: "PAYMENT_FAILED" },
+      });
+      throw new Error("PAYMENT FAILED");
+    }
+
+    await prismaClient.categoryNameSkin.update({
+      where: {
+        id: sellingItem.skinId,
+      },
+      data: {
+        ownerId: buyerId,
+      },
+    });
+
+    await prismaClient.purchasedItem.create({
+      data: {
+        userId: buyerId,
+        skinId: sellingItem.skinId,
+      },
+    });
+
+    await prismaClient.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        status: "FINISHED",
+      },
+    });
+
+    return { order };
   }
 }
 export { CreatePurchaseService };
