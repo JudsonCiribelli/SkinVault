@@ -7,6 +7,12 @@ interface CreatePurchaseProps {
 
 class CreatePurchaseService {
   async execute({ sellingItemId, buyerId }: CreatePurchaseProps) {
+    const user = await prismaClient.user.findUnique({
+      where: {
+        id: buyerId,
+      },
+    });
+
     const sellingItem = await prismaClient.sellingItem.findUnique({
       where: {
         id: sellingItemId,
@@ -59,6 +65,7 @@ class CreatePurchaseService {
       },
       data: {
         ownerId: buyerId,
+        sellerName: user?.name!,
       },
     });
 
