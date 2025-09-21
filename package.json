@@ -29,6 +29,7 @@
     "coverage": "^0.4.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mercadopago": "^2.9.0",
     "multer": "^2.0.2",
     "prisma": "^3.9.2"
   },
