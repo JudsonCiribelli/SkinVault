@@ -2,7 +2,7 @@
   "name": "skinvault",
   "version": "1.0.0",
   "description": "**CS2 Skin Market** é uma aplicação de e-commerce que simula a compra e venda de skins do jogo Counter-Strike 2 (CS2). O sistema permite aos usuários navegar, filtrar, comprar e vender skins, com a funcionalidade de login utilizando JWT (JSON Web Tokens) para autenticação.",
-  "main": "index.js",
+  "main": "server.ts",
   "type": "module",
   "scripts": {
     "dev": "node  --watch --experimental-strip-types src/server.ts",
@@ -31,7 +31,8 @@
     "jsonwebtoken": "^9.0.2",
     "mercadopago": "^2.9.0",
     "multer": "^2.0.2",
-    "prisma": "^3.9.2"
+    "prisma": "^3.9.2",
+    "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.0.0",
@@ -39,12 +40,12 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^4.17.14",
     "@types/multer": "^2.0.0",
-    "@types/node": "^24.3.1",
+    "@types/node": "^24.5.2",
     "@types/supertest": "^6.0.3",
     "@vitest/coverage-v8": "^3.2.4",
     "dotenv-cli": "^10.0.0",
     "supertest": "^7.1.4",
-    "ts-node-dev": "^2.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }
