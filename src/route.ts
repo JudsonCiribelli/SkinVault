@@ -15,6 +15,7 @@ import { ListItemsByCategoryIdController } from "./controllers/categoryNameSkin/
 import { CreateSellingItemsController } from "./controllers/sellingItem/createSellingItemsController.ts";
 import { CreateOrderController } from "./controllers/order/createOrderController.ts";
 import { CreatePurchaseController } from "./controllers/order/createPurchaseController.ts";
+import { CreateCheckoutProController } from "./controllers/payment/createCheckoutProController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -64,4 +65,10 @@ router.post(
   new CreatePurchaseController().handle
 );
 
+//CHECKOUT
+router.post(
+  "/payment/create",
+  IsAuthenticated,
+  new CreateCheckoutProController().handle
+);
 export { router };
