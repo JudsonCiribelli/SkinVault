@@ -7,6 +7,7 @@ interface CreateCheckouProps {
   price: number;
   skinName: string;
   backUrl: string;
+  orderId: string;
 }
 
 class CreateCheckoutService {
@@ -16,6 +17,7 @@ class CreateCheckoutService {
     price,
     skinName,
     backUrl,
+    orderId,
   }: CreateCheckouProps) {
     const body = {
       items: [
@@ -33,13 +35,15 @@ class CreateCheckoutService {
       payer: {
         email: buyerEmail,
       },
+
       back_urls: {
         success: `${backUrl}?status=success`,
         failure: `${backUrl}?status=failure`,
         pending: `${backUrl}?status=pending`,
       },
+      external_reference: orderId,
       notification_url:
-        "https://csfloat.com/search?category=2&sort_by=lowest_price&min_float=0.02&max_float=0.15&def_index=30&paint_index=303",
+        "https://e386d8677384.ngrok-free.app/webhook/mercado-pago",
     };
 
     try {
