@@ -3,7 +3,8 @@ import { CreateCheckoutService } from "../../services/payment/createCheckoutProS
 
 class CreateCheckoutProController {
   async handle(req: Request, res: Response) {
-    const { sellingItemId, buyerEmail, price, skinName, backUrl } = req.body;
+    const { sellingItemId, buyerEmail, price, skinName, backUrl, orderId } =
+      req.body;
     const createCheckoutService = new CreateCheckoutService();
     console.log("DADOS RECEBIDOS NO CONTROLLER:", req.body);
 
@@ -21,6 +22,7 @@ class CreateCheckoutProController {
         price,
         skinName,
         backUrl,
+        orderId,
       });
       return res.status(200).send({ checkout });
     } catch (error) {
