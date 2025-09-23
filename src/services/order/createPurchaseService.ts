@@ -1,91 +1,61 @@
 import prismaClient from "../../lib/client.ts";
+import type { CreateCheckoutService } from "../payment/createCheckoutProService.ts";
 
-interface CreatePurchaseProps {
-  buyerId: string;
+interface CreatePurchaseRequest {
   sellingItemId: string;
+  buyerId: string;
 }
 
 class CreatePurchaseService {
-  async execute({ sellingItemId, buyerId }: CreatePurchaseProps) {
-    const user = await prismaClient.user.findUnique({
-      where: {
-        id: buyerId,
-      },
-    });
+  private createCheckoutService: CreateCheckoutService;
 
+  // Usando injeção de dependência como discutimos
+  constructor(createCheckoutService: CreateCheckoutService) {
+    this.createCheckoutService = createCheckoutService;
+  }
+
+  async execute({ sellingItemId, buyerId }: CreatePurchaseRequest) {
+    // 1. VALIDAÇÕES (Seu código aqui estava perfeito)
     const sellingItem = await prismaClient.sellingItem.findUnique({
-      where: {
-        id: sellingItemId,
-      },
-      include: {
-        skin: true,
-        user: true,
-        order: true,
-      },
+      where: { id: sellingItemId },
+      include: { skin: true, order: true },
     });
 
-    if (sellingItem?.order) {
-      throw new Error("This item has already been purchased");
+    if (sellingItem!.userId === buyerId) {
+      throw new Error("Você não pode comprar seu próprio item.");
     }
 
-    if (!sellingItem) {
-      throw new Error("Item not found");
+    const buyer = await prismaClient.user.findUnique({
+      where: { id: buyerId },
+    });
+    if (!buyer) {
+      throw new Error("Comprador não encontrado.");
     }
 
-    if (sellingItem.userId === buyerId) {
-      throw new Error("You cannot purchase the item itself");
-    }
-
-    const order = await prismaClient.order.create({
+    // 2. CRIA A ORDEM COM STATUS PENDENTE
+    const newOrder = await prismaClient.order.create({
       data: {
-        sellingItemId,
-        buyerId,
-        sellerId: sellingItem.userId,
-        pricePaid: sellingItem.price,
+        sellingItemId: sellingItemId,
+        buyerId: buyerId,
+        sellerId: sellingItem!.userId,
+        pricePaid: sellingItem!.price,
         status: "PENDING",
       },
     });
 
-    // 3. Confirmar pagamento
-    // Aqui, você deve integrar com um gateway de pagamento para confirmar o pagamento
-    // Simulando pagamento com sucesso
-    const paymentConfirmed = true; // Este valor viria de um gateway de pagamento real
-
-    if (!paymentConfirmed) {
-      await prismaClient.order.update({
-        where: { id: order.id },
-        data: { status: "PAYMENT_FAILED" },
-      });
-      throw new Error("PAYMENT FAILED");
-    }
-
-    await prismaClient.categoryNameSkin.update({
-      where: {
-        id: sellingItem.skinId,
-      },
-      data: {
-        ownerId: buyerId,
-        sellerName: user?.name!,
-      },
+    // 3. CHAMA O SERVIÇO DE CHECKOUT PARA GERAR O LINK DE PAGAMENTO
+    const checkoutData = await this.createCheckoutService.execute({
+      orderId: newOrder.id,
+      sellingItemId: sellingItem!.id,
+      buyerEmail: buyer.email,
+      price: parseFloat(sellingItem!.price.toString()),
+      skinName: sellingItem!.skin.name,
+      backUrl: "http://localhost:3000/minha-conta/compras",
     });
 
-    await prismaClient.purchasedItem.create({
-      data: {
-        userId: buyerId,
-        skinId: sellingItem.skinId,
-      },
-    });
-
-    await prismaClient.order.update({
-      where: {
-        id: order.id,
-      },
-      data: {
-        status: "FINISHED",
-      },
-    });
-
-    return { order };
+    // 4. RETORNA OS DADOS DO CHECKOUT (INCLUINDO A URL)
+    return { checkoutData };
   }
 }
+
 export { CreatePurchaseService };
