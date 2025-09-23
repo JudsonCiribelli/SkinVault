@@ -16,6 +16,7 @@ import { CreateSellingItemsController } from "./controllers/sellingItem/createSe
 import { CreateOrderController } from "./controllers/order/createOrderController.ts";
 import { CreatePurchaseController } from "./controllers/order/createPurchaseController.ts";
 import { CreateCheckoutProController } from "./controllers/payment/createCheckoutProController.ts";
+import { WebHookController } from "./controllers/webhook/webHookController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -71,4 +72,5 @@ router.post(
   IsAuthenticated,
   new CreateCheckoutProController().handle
 );
+router.post("/webhook/mercado-pago", new WebHookController().handle);
 export { router };
