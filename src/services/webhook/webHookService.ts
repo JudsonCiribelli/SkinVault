@@ -10,14 +10,11 @@ interface WebHookProps {
 class WebHookService {
   async execute({ paymentId }: WebHookProps) {
     try {
-      // 1. Consulta o Mercado Pago para obter os dados REAIS do pagamento
       const paymentClient = new Payment(client);
       const paymentDetails = await paymentClient.get({ id: paymentId });
 
       console.log("--- DETALHES COMPLETOS DO PAGAMENTO (MERCADO PAGO) ---");
-      console.log(JSON.stringify(paymentDetails, null, 2));
 
-      // 2. Pega a referência externa (o ID da sua Order)
       const orderId = paymentDetails.external_reference;
 
       if (!orderId) {
@@ -51,16 +48,12 @@ class WebHookService {
       } else if (
         ["rejected", "cancelled", "refunded"].includes(paymentDetails.status!)
       ) {
-        // <-- AQUI
         await this.handleFailedPayment(order);
       }
     } catch (error) {
       console.error("--- ERRO FATAL DENTRO DO SERVIÇO ---");
       if (error instanceof Error) {
         console.error("Mensagem:", error.message);
-        console.error("Stack Trace:", error.stack);
-      } else {
-        console.error("Erro desconhecido:", error);
       }
       throw error;
     }

@@ -1,0 +1,28 @@
+LoginRequest:
+  type: object
+  required:
+    - email
+    - password
+  properties:
+    email:
+      type: string
+      description: Email do usuário.
+      example: "judson.ciribelli@gmail.com"
+    password:
+      type: string
+      description: Senha do usuário.
+      example: "minhasenha123"
+
+LoginResponse:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    email:
+      type: string
+    token:
+      type: string
+      description: Token JWT para autenticação.

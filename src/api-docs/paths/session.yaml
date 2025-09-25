@@ -1,0 +1,21 @@
+/session:
+  post:
+    summary: Autentica um usuário
+    tags:
+      - Users
+    description: Realiza o login de um usuário existente e retorna um token de autenticação.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/user.yaml#/LoginRequest"
+    responses:
+      "200":
+        description: Login bem-sucedido.
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/user.yaml#/LoginResponse"
+      "400":
+        description: Email ou senha incorretos.

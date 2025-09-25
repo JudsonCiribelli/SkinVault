@@ -1,0 +1,21 @@
+# src/api-docs/openapi.yaml
+openapi: 3.0.0
+info:
+  title: Skinvault Marketplace API
+  version: "1.0.0"
+  description: Documentação da API para o mercado de skins de CS.
+servers:
+  - url: http://localhost:3333
+    description: Servidor de Desenvolvimento
+tags:
+  - name: Users
+    description: Operações relacionadas a usuários e autenticação
+  - name: Orders
+    description: Operações de compra e venda
+
+paths:
+  $ref: ./paths/session.yaml
+
+components:
+  schemas:
+    $ref: ./components/schemas/user.yaml
