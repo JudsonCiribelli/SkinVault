@@ -35,7 +35,6 @@ class CreateCheckoutService {
       payer: {
         email: buyerEmail,
       },
-
       back_urls: {
         success: `${backUrl}?status=success`,
         failure: `${backUrl}?status=failure`,

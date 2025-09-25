@@ -5,6 +5,7 @@ class CreateCheckoutProController {
   async handle(req: Request, res: Response) {
     const { sellingItemId, buyerEmail, price, skinName, backUrl, orderId } =
       req.body;
+
     const createCheckoutService = new CreateCheckoutService();
     console.log("DADOS RECEBIDOS NO CONTROLLER:", req.body);
 
