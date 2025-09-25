@@ -1,19 +1,24 @@
-LoginRequest:
+CreateUserRequest:
   type: object
   required:
+    - name
     - email
     - password
   properties:
+    name:
+      type: string
+      example: "Judson Ciribelli"
     email:
       type: string
-      description: Email do usuário.
+      format: email
       example: "judson.ciribelli@gmail.com"
     password:
       type: string
-      description: Senha do usuário.
-      example: "minhasenha123"
+      format: password
+      minLength: 6
+      example: "123456"
 
-LoginResponse:
+UserResponse:
   type: object
   properties:
     id:
@@ -23,6 +28,11 @@ LoginResponse:
       type: string
     email:
       type: string
-    token:
+      format: email
+
+ErrorResponse:
+  type: object
+  properties:
+    error:
       type: string
-      description: Token JWT para autenticação.
+      example: "Email já cadastrado."

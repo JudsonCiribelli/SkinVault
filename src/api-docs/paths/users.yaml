@@ -1,0 +1,24 @@
+post:
+  summary: Cria um novo usuário
+  tags:
+    - Users
+  description: Registra um novo usuário no sistema.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/user.yaml#/CreateUserRequest"
+  responses:
+    "201":
+      description: Usuário criado com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/user.yaml#/UserResponse"
+    "400":
+      description: Erro na requisição (ex email já existe).
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/user.yaml#/ErrorResponse"

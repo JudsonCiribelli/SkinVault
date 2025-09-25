@@ -14,8 +14,9 @@ tags:
     description: Operações de compra e venda
 
 paths:
-  $ref: ./paths/session.yaml
+  /users:
+    $ref: "./paths/users.yaml"
 
 components:
   schemas:
-    $ref: ./components/schemas/user.yaml
+    $ref: "./components/schemas/user.yaml"
