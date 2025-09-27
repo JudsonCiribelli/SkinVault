@@ -5,7 +5,6 @@ import { CreateUserController } from "./controllers/user/createUserController.ts
 import { GetUserController } from "./controllers/user/getUserController.ts";
 import { AuthUserController } from "./controllers/user/authUserController.ts";
 import { IsAuthenticated } from "./middlewares/auth/isAuthenticated.ts";
-import { GetUserByIdController } from "./controllers/user/getUserByIdController.ts";
 import { CreateCategoryController } from "./controllers/category/createCategoryController.ts";
 import uploadConfig from "./config/multer.ts";
 import { CategoryItemController } from "./controllers/categoryItem/categoryItemController.ts";
@@ -17,13 +16,18 @@ import { CreateOrderController } from "./controllers/order/createOrderController
 import { CreatePurchaseController } from "./controllers/order/createPurchaseController.ts";
 import { CreateCheckoutProController } from "./controllers/payment/createCheckoutProController.ts";
 import { WebHookController } from "./controllers/webhook/webHookController.ts";
+import { GetInventoryController } from "./controllers/user/getInventoryController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 
 //USER / LOGIN
 router.get("/users", new GetUserController().handle);
-router.get("/user/:id", IsAuthenticated, new GetUserByIdController().handle);
+router.get(
+  "/user/inventory",
+  IsAuthenticated,
+  new GetInventoryController().handle
+);
 router.post("/users", new CreateUserController().handle);
 router.post("/session", new AuthUserController().handle);
 
