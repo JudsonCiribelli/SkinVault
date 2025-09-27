@@ -9,7 +9,7 @@ import swaggerUi from "swagger-ui-express";
 import { fileURLToPath } from "url";
 import SwaggerParser from "@apidevtools/swagger-parser";
 
-async function startServer() {
+export async function startServer() {
   const server = express();
   server.use(cors());
   server.use(bodyParser.json());
@@ -37,5 +37,4 @@ async function startServer() {
 
   return server;
 }
-
 startServer();
