@@ -11,9 +11,10 @@ export function IsAuthenticated(
   next: NextFunction
 ) {
   const authToken = req.headers.authorization;
+  console.log("--- MIDDLEWARE: Token recebido:", authToken);
 
   if (!authToken) {
-    res.status(400).send({ message: "Auth token is required" }).end();
+    res.status(401).send({ message: "Auth token is required" }).end();
   }
 
   const [, token] = authToken!.split(" ");
@@ -23,8 +24,12 @@ export function IsAuthenticated(
       token as string,
       process.env.JWT_SECRET!
     ) as IsAuthenticatedProps;
+    console.log("--- MIDDLEWARE: ID do usuário (sub):", sub);
 
     req.userId = sub;
+    console.log(
+      '--- MIDDLEWARE: Anexando ID ao request como "req.user_id" ---'
+    );
     return next();
   } catch (err) {
     res.status(400).send({ message: "Authorization error!" }).end();
