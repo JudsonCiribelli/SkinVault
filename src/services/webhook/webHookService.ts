@@ -1,7 +1,7 @@
 import { Payment } from "mercadopago";
 import { client } from "../../lib/mercadoPago.ts";
 import prismaClient from "../../lib/client.ts";
-import { prisma, type Order } from "@prisma/client";
+import { type Order } from "@prisma/client";
 
 interface WebHookProps {
   paymentId: string;
