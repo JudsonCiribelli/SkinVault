@@ -1,7 +1,7 @@
 import { Payment } from "mercadopago";
 import { client } from "../../lib/mercadoPago.ts";
 import prismaClient from "../../lib/client.ts";
-import { type Order } from "@prisma/client";
+import { prisma, type Order } from "@prisma/client";
 
 interface WebHookProps {
   paymentId: string;
@@ -61,6 +61,29 @@ class WebHookService {
 
   private async handleApprovedPayment(order: Order) {
     console.log(`Confirmando pagamento para o pedido ${order.id}...`);
+    const itemToSale = await prismaClient.sellingItem.findUnique({
+      where: {
+        id: order.sellingItemId,
+      },
+      include: {
+        skin: true,
+      },
+    });
+
+    const salePrice = order.pricePaid;
+    const commission = parseFloat(salePrice.toString()) * 0.05;
+    const netAmountToSeller = parseFloat(salePrice.toString());
+
+    await prismaClient.user.update({
+      where: {
+        id: order.sellerId,
+      },
+      data: {
+        balance: {
+          increment: netAmountToSeller,
+        },
+      },
+    });
 
     await prismaClient.order.update({
       where: {
@@ -71,12 +94,40 @@ class WebHookService {
       },
     });
 
+    await prismaClient.transaction.create({
+      data: {
+        amount: netAmountToSeller,
+        type: "SALE_CREDIT",
+        description: `Crédito pela venda da skin: ${itemToSale?.skin.name}`,
+        userId: order.sellerId,
+        orderId: order.id,
+      },
+    });
+
+    await prismaClient.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        status: "FINISHED",
+      },
+    });
+
     await prismaClient.categoryNameSkin.update({
+      where: {
+        id: itemToSale!.id,
+      },
+      data: {
+        ownerId: order.buyerId,
+      },
+    });
+
+    await prismaClient.sellingItem.update({
       where: {
         id: order.sellingItemId,
       },
       data: {
-        ownerId: order.sellingItemId,
+        isActive: false,
       },
     });
 
