@@ -31,12 +31,12 @@ model User {
 model Transaction {
   id          String  @id @default(uuid())
   amount      Decimal @db.Decimal(10, 2)
-  type        String 
-  description String 
-  userId String 
-  user   User   @relation(fields: [userId], references: [id])
-  orderId String? @unique 
-  order   Order?  @relation(fields: [orderId], references: [id])
+  type        String
+  description String
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
+  orderId     String? @unique
+  order       Order?  @relation(fields: [orderId], references: [id])
 
   createdAt DateTime @default(now())
 
@@ -123,6 +123,7 @@ model SellingItem {
   skinId   String
   price    String
   listedAt DateTime @default(now())
+  isActive Boolean  @default(true)
 
 
   user  User             @relation(fields: [userId], references: [id])
