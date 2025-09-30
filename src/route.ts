@@ -18,6 +18,7 @@ import { CreateCheckoutProController } from "./controllers/payment/createCheckou
 import { WebHookController } from "./controllers/webhook/webHookController.ts";
 import { GetInventoryController } from "./controllers/user/getInventoryController.ts";
 import { GetBalanceController } from "./controllers/user/getBalanceController.ts";
+import { GetTransactionController } from "./controllers/user/getTransactionController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -36,6 +37,11 @@ router.get(
   "/wallet/balance",
   IsAuthenticated,
   new GetBalanceController().handle
+);
+router.get(
+  "/wallet/transaction",
+  IsAuthenticated,
+  new GetTransactionController().handle
 );
 
 // CATEGORY
