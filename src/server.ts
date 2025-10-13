@@ -1,6 +1,4 @@
-// src/server.ts
-
-import express from "express";
+import express, { type Express } from "express";
 import { router } from "./route.ts";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -9,7 +7,7 @@ import swaggerUi from "swagger-ui-express";
 import { fileURLToPath } from "url";
 import SwaggerParser from "@apidevtools/swagger-parser";
 
-export async function startServer() {
+export async function startServer(): Promise<Express> {
   const server = express();
   server.use(cors());
   server.use(bodyParser.json());
@@ -31,10 +29,17 @@ export async function startServer() {
     console.error("Erro ao carregar ou validar a documentação Swagger:", err);
   }
 
-  server.listen(3333, () => {
-    console.log("Servidor rodando na porta 3333");
-  });
-
   return server;
+}
+
+if (process.env.NODE_ENV !== "test") {
+  startServer().then((server) => {
+    server.listen(3333, () => {
+      console.log("Servidor rodando na porta 3333");
+      console.log(
+        "Documentação Swagger UI disponível em http://localhost:3333/api-docs"
+      );
+    });
+  });
 }
 startServer();
