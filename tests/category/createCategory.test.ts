@@ -1,11 +1,28 @@
 import supertest from "supertest";
-import { expect, test } from "vitest";
-import { server } from "../../src/server.ts";
+import { afterAll, beforeAll, expect, test } from "vitest";
+import { startServer } from "../../src/server.ts";
 import { faker } from "@faker-js/faker";
+import type { Express } from "express";
+import prismaClient from "../../src/lib/client.ts";
+import { makeAuthenticatedUser } from "../factories/makeUser.ts";
+
+let server: Express;
+
+beforeAll(async () => {
+  process.env.NODE_ENV = "test";
+  server = await startServer();
+});
+
+afterAll(async () => {
+  await prismaClient.$disconnect();
+});
 
 test("Create a new Category", async () => {
+  const { token } = await makeAuthenticatedUser();
+
   const response = await supertest(server)
     .post("/category")
+    .set("Authorization", `Bearer ${token}`)
     .set("Content-Type", "application/json")
     .send({
       name: faker.lorem.words(3),
@@ -17,5 +34,22 @@ test("Create a new Category", async () => {
     id: expect.any(String),
     createdAt: expect.any(String),
     updatedAt: expect.any(String),
+  });
+});
+
+test("Category name to be required", async () => {
+  const { token } = await makeAuthenticatedUser();
+
+  const response = await supertest(server)
+    .post("/category")
+    .set("Authorization", `Bearer ${token}`)
+    .set("Content-Type", "application/json")
+    .send({
+      name: "",
+    });
+
+  expect(response.status).toBe(400);
+  expect(response.body).toEqual({
+    message: expect.any(String),
   });
 });
