@@ -19,6 +19,8 @@ import { WebHookController } from "./controllers/webhook/webHookController.ts";
 import { GetInventoryController } from "./controllers/user/getInventoryController.ts";
 import { GetBalanceController } from "./controllers/user/getBalanceController.ts";
 import { GetTransactionController } from "./controllers/user/getTransactionController.ts";
+import { isatty } from "tty";
+import { CreateReviewController } from "./controllers/reviews/createReviewController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -90,4 +92,11 @@ router.post(
   new CreateCheckoutProController().handle
 );
 router.post("/webhook/mercado-pago", new WebHookController().handle);
+
+//REVIEW
+router.post(
+  "/order/:id/review",
+  IsAuthenticated,
+  new CreateReviewController().handle
+);
 export { router };
