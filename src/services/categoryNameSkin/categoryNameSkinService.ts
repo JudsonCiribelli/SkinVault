@@ -2,7 +2,7 @@ import prismaClient from "../../lib/client.ts";
 
 interface CategoryNameSkinProps {
   name: string;
-  categoryId: string;
+  categoryItemId: string;
   float: number;
   banner: string;
   sellerName: string;
@@ -14,7 +14,7 @@ interface CategoryNameSkinProps {
 class CategoryNameSkinService {
   async execute({
     name,
-    categoryId,
+    categoryItemId,
     float,
     sellerName,
     price,
@@ -22,30 +22,18 @@ class CategoryNameSkinService {
     banner,
     ownerId,
   }: CategoryNameSkinProps) {
-    const [categoryAlreadyExists, categoryNameSkin] = await Promise.all([
-      prismaClient.categoryItem.findUnique({
-        where: {
-          id: categoryId,
-        },
-      }),
-
-      prismaClient.categoryNameSkin.create({
-        data: {
-          name: name,
-          categoryItemId: categoryId,
-          float: float,
-          sellerName: sellerName,
-          price: price,
-          wear: wear,
-          imageUrl: banner,
-          ownerId: ownerId,
-        },
-      }),
-    ]);
-
-    if (!categoryAlreadyExists) {
-      throw new Error("Category Item does not exists");
-    }
+    const categoryNameSkin = await prismaClient.categoryNameSkin.create({
+      data: {
+        name: name,
+        categoryItemId: categoryItemId,
+        float: float,
+        sellerName: sellerName,
+        price: price,
+        wear: wear,
+        imageUrl: banner,
+        ownerId: ownerId,
+      },
+    });
 
     return { categoryNameSkin };
   }

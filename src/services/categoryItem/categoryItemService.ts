@@ -34,7 +34,7 @@ class CategoryItemService {
       },
     });
 
-    return { categoryItem };
+    return categoryItem;
   }
 }
 

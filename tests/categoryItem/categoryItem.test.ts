@@ -5,7 +5,7 @@ import { faker } from "@faker-js/faker";
 import { makeCategory } from "../factories/makeCategory.ts";
 import type { Express } from "express";
 import prismaClient from "../../src/lib/client.ts";
-import { makeAuthenticatedUser } from "../factories/makeUser.ts";
+import { makeAuthenticatedUser } from "../factories/makeAuthenticatedUser.ts";
 
 let server: Express;
 

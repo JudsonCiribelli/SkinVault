@@ -3,8 +3,8 @@ import type { Express } from "express";
 import prismaClient from "../../src/lib/client.ts";
 import { startServer } from "../../src/server.ts";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
-import { makeAuthenticatedUser } from "../factories/makeUser.ts";
 import { makeCategory, makeCategoryItem } from "../factories/makeCategory.ts";
+import { makeAuthenticatedUser } from "../factories/makeAuthenticatedUser.ts";
 
 let server: Express;
 

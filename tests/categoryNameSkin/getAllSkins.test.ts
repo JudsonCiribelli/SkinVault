@@ -3,7 +3,6 @@ import type { Express } from "express";
 import prismaClient from "../../src/lib/client.ts";
 import { startServer } from "../../src/server.ts";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
-import { makeCategoryNameSkin } from "../factories/makeCategoryNameSkin.ts"; // Importe sua factory
 
 let server: Express;
 

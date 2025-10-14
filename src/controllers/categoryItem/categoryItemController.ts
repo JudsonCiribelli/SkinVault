@@ -4,9 +4,16 @@ import { CategoryItemService } from "../../services/categoryItem/categoryItemSer
 class CategoryItemController {
   async handle(req: Request, res: Response) {
     const { id, name } = req.body;
+
     const categoryItemService = new CategoryItemService();
-    const categoryItem = await categoryItemService.execute({ id, name });
-    return res.status(200).send(categoryItem);
+
+    try {
+      const categoryItem = await categoryItemService.execute({ id, name });
+
+      return res.status(200).send(categoryItem);
+    } catch (err) {
+      return res.status(400).send({ message: err });
+    }
   }
 }
 
