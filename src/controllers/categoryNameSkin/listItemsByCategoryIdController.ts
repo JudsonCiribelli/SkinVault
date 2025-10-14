@@ -6,9 +6,19 @@ class ListItemsByCategoryIdController {
     const categoryId = req.query.categoryId as string;
 
     const listByCategoryId = new ListByCategoryIdService();
-    const items = await listByCategoryId.execute({ categoryId });
 
-    return res.status(200).send({ items });
+    try {
+      const items = await listByCategoryId.execute({ categoryId });
+
+      return res.status(200).send({ items });
+    } catch (error) {
+      console.log(error);
+      if (!categoryId) {
+        return res.status(404).send({ message: "Not found" });
+      }
+
+      return res.status(400).send(error);
+    }
   }
 }
 
