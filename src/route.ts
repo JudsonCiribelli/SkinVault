@@ -45,7 +45,6 @@ router.get(
   IsAuthenticated,
   new GetTransactionController().handle
 );
-
 // CATEGORY
 router.post(
   "/category",

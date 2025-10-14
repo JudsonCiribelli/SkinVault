@@ -4,8 +4,15 @@ import { GetAllSkinsService } from "../../services/categoryNameSkin/getAllSkinsS
 class GetAllSkinsController {
   async handle(req: Request, res: Response) {
     const getAllSkins = new GetAllSkinsService();
-    const skins = await getAllSkins.execute();
-    return res.send({ skins });
+
+    try {
+      const skins = await getAllSkins.execute();
+
+      return res.status(200).send({ skins });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send(error);
+    }
   }
 }
 export { GetAllSkinsController };
