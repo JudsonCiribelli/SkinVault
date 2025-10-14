@@ -1,7 +1,21 @@
-import { test, expect } from "vitest";
+import { test, expect, beforeAll, afterAll } from "vitest";
 import supertest from "supertest";
-import { server } from "../../src/server.ts";
+
 import { makeUser } from "../factories/makeUser.ts";
+import type { Express } from "express";
+import prismaClient from "../../src/lib/client.ts";
+import { startServer } from "../../src/server.ts";
+
+let server: Express;
+
+beforeAll(async () => {
+  process.env.NODE_ENV = "test";
+  server = await startServer();
+});
+
+afterAll(async () => {
+  await prismaClient.$disconnect();
+});
 
 test("Authenticated user", async () => {
   const { user, passwordHash } = await makeUser();
