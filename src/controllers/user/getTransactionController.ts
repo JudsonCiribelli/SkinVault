@@ -3,12 +3,25 @@ import { GetTransactionService } from "../../services/user/getTransactionService
 
 class GetTransactionController {
   async handle(req: Request, res: Response) {
-    const userId = req.userId;
+    try {
+      const userId = req.userId;
+      const getTransactionService = new GetTransactionService();
 
-    const getTransactionService = new GetTransactionService();
+      if (!userId) {
+        throw new Error("User ID not provided during authentication.");
+      }
+      const transaction = await getTransactionService.execute({ userId });
 
-    const transaction = await getTransactionService.execute({ userId });
-    return res.status(200).send({ transaction });
+      return res.status(200).json({ transaction });
+    } catch (error) {
+      console.log("Error fetching transactions:", error);
+
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "An unexpected error has occurred.";
+      return res.status(400).json({ error: errorMessage });
+    }
   }
 }
 
