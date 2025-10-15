@@ -19,14 +19,13 @@ import { WebHookController } from "./controllers/webhook/webHookController.ts";
 import { GetInventoryController } from "./controllers/user/getInventoryController.ts";
 import { GetBalanceController } from "./controllers/user/getBalanceController.ts";
 import { GetTransactionController } from "./controllers/user/getTransactionController.ts";
-import { isatty } from "tty";
 import { CreateReviewController } from "./controllers/reviews/createReviewController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 
 //USER / LOGIN
-router.get("/users", new GetUserController().handle);
+router.get("/users", IsAuthenticated, new GetUserController().handle);
 router.get(
   "/user/inventory",
   IsAuthenticated,
@@ -34,6 +33,7 @@ router.get(
 );
 router.post("/users", new CreateUserController().handle);
 router.post("/session", new AuthUserController().handle);
+
 //WALLET
 router.get(
   "/wallet/balance",
@@ -83,7 +83,6 @@ router.post(
   IsAuthenticated,
   new CreatePurchaseController().handle
 );
-
 //CHECKOUT
 router.post(
   "/payment/create",

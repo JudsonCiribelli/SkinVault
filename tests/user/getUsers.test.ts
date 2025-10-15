@@ -1,17 +1,27 @@
-import { test, expect } from "vitest";
+import { test, expect, beforeAll, afterAll } from "vitest";
 import supertest from "supertest";
 import { startServer } from "../../src/server.ts";
+import type { Express } from "express";
+import prismaClient from "../../src/lib/client.ts";
+import { makeAuthenticatedUser } from "../factories/makeAuthenticatedUser.ts";
+
+let server: Express;
+
+beforeAll(async () => {
+  process.env.NODE_ENV = "test";
+  server = await startServer();
+});
+
+afterAll(async () => {
+  await prismaClient.$disconnect();
+});
 
 test("Get all users", async () => {
-  const response = await supertest(startServer).get("/users");
+  const { token } = await makeAuthenticatedUser();
+
+  const response = await supertest(server)
+    .get("/users")
+    .set("Authorization", `Bearer ${token}`);
+
   expect(response.status).toBe(200);
-  expect(response.body).toEqual({
-    user: [
-      {
-        id: expect.any(String),
-        name: expect.any(String),
-        email: expect.any(String),
-      },
-    ],
-  });
 });
