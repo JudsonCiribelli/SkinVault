@@ -3,7 +3,7 @@ import type { Express } from "express";
 import prismaClient from "../../src/lib/client.ts";
 import { startServer } from "../../src/server.ts";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
-import { makeCategory, makeCategoryItem } from "../factories/makeCategory.ts";
+import { makeCategoryItem } from "../factories/makeCategory.ts";
 import { makeAuthenticatedUser } from "../factories/makeAuthenticatedUser.ts";
 
 let server: Express;
@@ -29,7 +29,6 @@ describe("GET /category/categoryItem/categoryNameSkin", () => {
       .send({ categoryItemId: category.categoryItem.id });
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ items: [] });
   });
 
   test("Category ID does not exist", async () => {

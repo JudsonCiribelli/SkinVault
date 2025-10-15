@@ -20,11 +20,6 @@ beforeAll(async () => {
   server = await startServer();
 });
 
-beforeEach(async () => {
-  await prismaClient.transaction.deleteMany();
-  await prismaClient.user.deleteMany();
-});
-
 afterAll(async () => {
   await prismaClient.$disconnect();
 });

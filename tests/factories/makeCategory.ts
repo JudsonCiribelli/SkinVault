@@ -7,16 +7,19 @@ export const makeCategory = async () => {
       name: faker.lorem.lines(4),
     },
   });
+
   return { result };
 };
 
 export const makeCategoryItem = async () => {
   const category = await makeCategory();
+
   const categoryItem = await prismaClient.categoryItem.create({
     data: {
       name: faker.person.fullName(),
       categoryId: category.result.id,
     },
   });
+
   return { categoryItem };
 };
