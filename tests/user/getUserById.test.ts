@@ -17,14 +17,38 @@ afterAll(async () => {
   await prismaClient.$disconnect();
 });
 
-test("Get a user by ID", async () => {
+test("Should return user data", async () => {
   const { user } = await makeUser();
 
   const { token } = await makeAuthenticatedUser();
 
   const response = await supertest(server)
-    .get(`/user/${user.id}`)
-    .set("Authorization", `Bearer ${token}`);
+    .get(`/users/${user.id}`)
+    .set("Authorization", `Bearer ${token}`)
+    .send({ userId: user.id });
 
   expect(response.status).toBe(200);
+  expect(response.body).toEqual({
+    user: {
+      averageRating: expect.any(Number),
+      balance: expect.any(String),
+      createdAt: expect.any(String),
+      email: expect.any(String),
+      id: expect.any(String),
+      name: expect.any(String),
+      password: expect.any(String),
+      reviewCount: expect.any(Number),
+      updatedAt: expect.any(String),
+    },
+  });
+});
+
+test("Should return not found for users without an ID registered in the database", async () => {
+  const { token } = await makeAuthenticatedUser();
+
+  const response = await supertest(server)
+    .get(`/users/313141`)
+    .set("Authorization", `Bearer ${token}`);
+
+  expect(response.status).toBe(404);
 });

@@ -20,12 +20,14 @@ import { GetInventoryController } from "./controllers/user/getInventoryControlle
 import { GetBalanceController } from "./controllers/user/getBalanceController.ts";
 import { GetTransactionController } from "./controllers/user/getTransactionController.ts";
 import { CreateReviewController } from "./controllers/reviews/createReviewController.ts";
+import { GetUserByIdController } from "./controllers/user/getUserByIdController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 
 //USER / LOGIN
 router.get("/users", IsAuthenticated, new GetUserController().handle);
+router.get("/users/:id", IsAuthenticated, new GetUserByIdController().handle);
 router.get(
   "/user/inventory",
   IsAuthenticated,
