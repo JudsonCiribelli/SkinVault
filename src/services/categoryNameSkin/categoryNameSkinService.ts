@@ -35,7 +35,7 @@ class CategoryNameSkinService {
       },
     });
 
-    return { categoryNameSkin };
+    return categoryNameSkin;
   }
 }
 

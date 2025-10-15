@@ -7,6 +7,7 @@ import { startServer } from "../../src/server.ts";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import { makeCategoryNameSkin } from "../factories/makeCategoryNameSkin.ts";
 import { makeAuthenticatedUser } from "../factories/makeAuthenticatedUser.ts";
+import { makeCategory, makeCategoryItem } from "../factories/makeCategory.ts";
 
 let server: Express;
 const testImagePath = path.join(
@@ -28,20 +29,21 @@ afterAll(async () => {
 });
 
 test("Create a new Category name skin", async () => {
-  const categoryNameSkin = await makeCategoryNameSkin();
+  const categoryItem = await makeCategoryItem();
+  const { categoryNameSkin, user } = await makeCategoryNameSkin();
 
   const { token } = await makeAuthenticatedUser();
 
   const response = await supertest(server)
     .post("/category/categoryItem/categoryNameSkin")
     .set("Authorization", `Bearer ${token}`)
-    .field("name", categoryNameSkin.categoryNameSkin.name)
-    .field("category item id", categoryNameSkin.categoryNameSkin.categoryItemId)
-    .field("float", categoryNameSkin.categoryNameSkin.float.toString())
-    .field("price", categoryNameSkin.categoryNameSkin.price.toString())
-    .field("wear", categoryNameSkin.categoryNameSkin.wear)
-    .field("seller name", categoryNameSkin.categoryNameSkin.sellerName)
-    .field("owner id", categoryNameSkin.categoryNameSkin.ownerId)
+    .field("name", categoryNameSkin.name)
+    .field("categoryItemId", categoryItem.categoryItem.id)
+    .field("float", categoryNameSkin.float.toString())
+    .field("price", categoryNameSkin.price.toString())
+    .field("wear", categoryNameSkin.wear)
+    .field("sellerName", categoryNameSkin.sellerName)
+    .field("ownerId", categoryNameSkin.ownerId)
     .attach("file", testImagePath);
 
   if (response.status !== 201) {
@@ -50,17 +52,20 @@ test("Create a new Category name skin", async () => {
   }
 
   expect(response.status).toBe(201);
-  expect(response.body.name).toBe(categoryNameSkin.categoryNameSkin.name);
-  expect(response.body).toHaveProperty("imageUrl");
 
   expect(response.body).toEqual({
-    name: expect.any(String),
-    categoryItemId: expect.any(String),
-    float: expect.any(String),
-    price: expect.any(String),
-    wear: expect.any(String),
-    imageUrl: expect.any(String),
-    sellerName: expect.any(String),
-    ownerId: expect.any(String),
+    categoryNameSkin: {
+      name: expect.any(String),
+      id: expect.any(String),
+      categoryItemId: expect.any(String),
+      float: expect.any(String),
+      price: expect.any(String),
+      wear: expect.any(String),
+      imageUrl: expect.any(String),
+      sellerName: expect.any(String),
+      ownerId: expect.any(String),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    },
   });
 });

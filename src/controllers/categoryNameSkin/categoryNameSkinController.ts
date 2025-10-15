@@ -3,12 +3,12 @@ import { CategoryNameSkinService } from "../../services/categoryNameSkin/categor
 
 class CategoryNameSkinController {
   async handle(req: Request, res: Response) {
-    const { name, categoryItemId, float, price, wear, ownerId, sellerName } =
-      req.body;
-
-    const categoryNameSkinService = new CategoryNameSkinService();
-
     try {
+      const { name, categoryItemId, float, price, wear, ownerId, sellerName } =
+        req.body;
+
+      const categoryNameSkinService = new CategoryNameSkinService();
+
       if (!req.file) {
         throw new Error("Error upload file");
       } else {
@@ -23,6 +23,7 @@ class CategoryNameSkinController {
           sellerName,
           ownerId,
         });
+
         return res.status(201).send({ categoryNameSkin });
       }
     } catch (error) {
