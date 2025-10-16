@@ -1,48 +1,41 @@
 import prismaClient from "../../lib/client.ts";
 
+// A única informação que o serviço precisa do controller
 interface CreateOrderProps {
   sellingItemId: string;
   buyerId: string;
-  sellerId: string;
-  pricePaid: string;
 }
 
 class CreateOrderService {
-  async execute({
-    sellingItemId,
-    sellerId,
-    buyerId,
-    pricePaid,
-  }: CreateOrderProps) {
-    const itemForSale = await prismaClient.sellingItem.findUnique({
+  async execute({ sellingItemId, buyerId }: CreateOrderProps) {
+    const sellingItem = await prismaClient.sellingItem.findFirst({
       where: {
         id: sellingItemId,
-      },
-      include: {
-        skin: true,
+        isActive: true,
       },
     });
 
-    if (itemForSale?.id !== sellingItemId) {
-      throw new Error("We did not find any ads with this id!");
+    if (!sellingItem) {
+      throw new Error(
+        "Item não encontrado ou não está mais disponível para venda."
+      );
     }
 
-    if (itemForSale?.userId !== sellerId) {
-      throw new Error(
-        "The seller's ID is different from the ID registered in the sale."
-      );
+    if (sellingItem.userId === buyerId) {
+      throw new Error("Você não pode comprar seu próprio item.");
     }
 
     const order = await prismaClient.order.create({
       data: {
-        sellerId,
-        sellingItemId,
-        buyerId,
-        pricePaid,
+        sellingItemId: sellingItem.id,
+        buyerId: buyerId,
+        sellerId: sellingItem.userId,
+        pricePaid: sellingItem.price,
+        status: "PENDING",
       },
     });
 
-    return { order };
+    return order;
   }
 }
 
