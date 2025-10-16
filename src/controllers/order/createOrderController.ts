@@ -3,17 +3,21 @@ import { CreateOrderService } from "../../services/order/createOrderService.ts";
 
 class CreateOrderController {
   async handle(req: Request, res: Response) {
-    const { sellerId, sellingItemId, buyerId, pricePaid } = req.body;
+    const { sellingItemId } = req.body;
+    const buyerId = req.userId;
+
     const createOrderService = new CreateOrderService();
 
-    const order = await createOrderService.execute({
-      sellerId,
-      sellingItemId,
-      buyerId,
-      pricePaid,
-    });
+    try {
+      const order = await createOrderService.execute({
+        sellingItemId,
+        buyerId,
+      });
 
-    return res.status(200).send({ order });
+      return res.status(201).send({ order });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
   }
 }
 export { CreateOrderController };
