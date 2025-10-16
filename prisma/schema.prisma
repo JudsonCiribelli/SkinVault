@@ -33,16 +33,16 @@ model User {
 }
 
 model Transaction {
-  id          String  @id @default(uuid())
-  amount      Decimal @db.Decimal(10, 2)
+  id          String    @id @default(uuid())
+  amount      Decimal   @db.Decimal(10, 2)
   type        String
   description String
   userId      String
-  user        User    @relation(fields: [userId], references: [id])
-  orderId     String? @unique
-  order       Order?  @relation(fields: [orderId], references: [id])
-
-  createdAt DateTime @default(now())
+  user        User      @relation(fields: [userId], references: [id])
+  orderId     String?   @unique
+  order       Order?    @relation(fields: [orderId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @default(now())
 
   @@map("transactions")
 }
@@ -55,6 +55,7 @@ model Order {
   pricePaid     String
   status        OrderStatus @default(PENDING)
   createdAt     DateTime    @default(now())
+  updatedAt     DateTime?   @default(now())
 
   sellingItem SellingItem  @relation(fields: [sellingItemId], references: [id])
   buyer       User         @relation("UserPurchases", fields: [buyerId], references: [id])
@@ -69,22 +70,17 @@ model Order {
 }
 
 model Review {
-  id        String   @id @default(uuid())
-  rating    Int
-  comment   String?
-  createdAt DateTime @default(now())
-
-
-  orderId String @unique
-  order   Order  @relation(fields: [orderId], references: [id])
-
-
+  id         String    @id @default(uuid())
+  rating     Int
+  comment    String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @default(now())
+  orderId    String    @unique
+  order      Order     @relation(fields: [orderId], references: [id])
   reviewerId String
-  reviewer   User   @relation("ReviewsGiven", fields: [reviewerId], references: [id])
-
-
+  reviewer   User      @relation("ReviewsGiven", fields: [reviewerId], references: [id])
   reviewedId String
-  reviewed   User   @relation("ReviewsReceived", fields: [reviewedId], references: [id])
+  reviewed   User      @relation("ReviewsReceived", fields: [reviewedId], references: [id])
 
   @@map("reviews")
 }
@@ -133,10 +129,12 @@ model CategoryNameSkin {
 }
 
 model PurchasedItem {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   userId      String
   skinId      String
-  purchasedAt DateTime @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @default(now())
+  purchasedAt DateTime  @default(now())
 
   user User             @relation(fields: [userId], references: [id])
   skin CategoryNameSkin @relation("SkinPurchasedItems", fields: [skinId], references: [id])
