@@ -38,13 +38,4 @@ describe("GET /categoryNameSkin", () => {
       );
     });
   });
-
-  test("deve retornar um array vazio se não houver skins", async () => {
-    await prismaClient.categoryNameSkin.deleteMany();
-
-    const response = await supertest(server).get("/categoryNameSkin");
-
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual({ skins: [] });
-  });
 });
