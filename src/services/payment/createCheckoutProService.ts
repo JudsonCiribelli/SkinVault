@@ -1,7 +1,7 @@
 import { Preference } from "mercadopago";
 import { client } from "../../lib/mercadoPago.ts";
 
-interface CreateCheckouProps {
+interface CreateCheckoutProps {
   sellingItemId: string;
   buyerEmail: string;
   price: number;
@@ -18,7 +18,7 @@ class CreateCheckoutService {
     skinName,
     backUrl,
     orderId,
-  }: CreateCheckouProps) {
+  }: CreateCheckoutProps) {
     const body = {
       items: [
         {

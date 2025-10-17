@@ -25,12 +25,12 @@ class CreateCheckoutProController {
         backUrl,
         orderId,
       });
-      return res.status(200).send({ checkout });
+
+      return res.status(201).send({ checkout });
     } catch (error) {
-      console.error("Erro no controller ao criar checkout:", error);
-      return res
-        .status(500)
-        .send({ error: "Falha ao criar a sessão de checkout." });
+      console.log(error);
+
+      return res.status(400).send(error);
     }
   }
 }
