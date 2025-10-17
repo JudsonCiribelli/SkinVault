@@ -1,4 +1,3 @@
-import { Prisma, PrismaClient } from "@prisma/client";
 import prismaClient from "../../lib/client.ts";
 
 interface CreateItemSaleProps {
