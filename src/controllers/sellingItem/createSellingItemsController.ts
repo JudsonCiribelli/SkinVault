@@ -7,13 +7,17 @@ class CreateSellingItemsController {
 
     const createSellingItemsService = new CreateSellingItemsService();
 
-    const sellingItems = await createSellingItemsService.execute({
-      userId,
-      skinId,
-      price,
-    });
+    try {
+      const sellingItems = await createSellingItemsService.execute({
+        userId,
+        skinId,
+        price,
+      });
 
-    return res.status(200).send({ sellingItems });
+      return res.status(201).send({ sellingItems });
+    } catch (error) {
+      return res.status(401).send(error);
+    }
   }
 }
 
