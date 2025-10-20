@@ -7,9 +7,14 @@ class GetInventoryController {
     const id = req.userId;
 
     const getInventoryService = new GetInventoryService();
-    const invetory = await getInventoryService.execute({ id });
 
-    return res.status(200).send({ invetory });
+    try {
+      const inventory = await getInventoryService.execute({ id });
+
+      return res.status(200).send({ inventory });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
   }
 }
 export { GetInventoryController };
