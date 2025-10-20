@@ -13,6 +13,7 @@ class GetBalanceService {
     });
 
     const balanceUser = user?.balance;
+
     return { balanceUser };
   }
 }
