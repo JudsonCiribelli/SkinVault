@@ -6,8 +6,14 @@ class GetBalanceController {
     const userId = req.userId;
 
     const getBalanceService = new GetBalanceService();
-    const balance = await getBalanceService.execute({ userId });
-    return res.status(200).send({ balance });
+
+    try {
+      const balance = await getBalanceService.execute({ userId });
+
+      return res.status(200).send({ balance });
+    } catch (error) {
+      return res.status(401).send(error);
+    }
   }
 }
 
