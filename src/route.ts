@@ -95,7 +95,7 @@ router.post("/webhook/mercado-pago", new WebHookController().handle);
 
 //REVIEW
 router.post(
-  "/order/:id/review",
+  "/order/review",
   IsAuthenticated,
   new CreateReviewController().handle
 );
