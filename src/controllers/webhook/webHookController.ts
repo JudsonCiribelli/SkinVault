@@ -3,7 +3,6 @@ import { WebHookService } from "../../services/webhook/webHookService.ts";
 
 class WebHookController {
   async handle(req: Request, res: Response) {
-    // A notificação do Mercado Pago vem no corpo da requisição
     console.log("--- NÍVEL 1: Webhook Controller foi acionado! ---");
     const { type, data } = req.body;
 
@@ -15,7 +14,12 @@ class WebHookController {
 
       try {
         const payment = await webHookService.execute({ paymentId });
+
+        return res
+          .status(200)
+          .send({ message: "Webhook processado com sucesso." });
       } catch (error) {
+        console.error("Erro no webhook:", error);
         return res.status(500).send(error);
       }
     }
