@@ -61,6 +61,7 @@ class WebHookService {
 
   private async handleApprovedPayment(order: Order) {
     console.log(`Confirmando pagamento para o pedido ${order.id}...`);
+
     const itemToSale = await prismaClient.sellingItem.findUnique({
       where: {
         id: order.sellingItemId,
@@ -71,7 +72,6 @@ class WebHookService {
     });
 
     const salePrice = order.pricePaid;
-    const commission = parseFloat(salePrice.toString()) * 0.05;
     const netAmountToSeller = parseFloat(salePrice.toString());
 
     await prismaClient.user.update({
@@ -115,7 +115,7 @@ class WebHookService {
 
     await prismaClient.categoryNameSkin.update({
       where: {
-        id: itemToSale!.id,
+        id: itemToSale!.skin.id,
       },
       data: {
         ownerId: order.buyerId,
