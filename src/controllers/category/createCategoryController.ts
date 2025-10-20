@@ -8,9 +8,11 @@ class CreateCategoryController {
 
     try {
       const category = await createCategoryService.execute(name);
+
       return res.status(200).send(category);
-    } catch (err) {
-      return res.status(400).send({ message: "Error" });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({ message: error });
     }
   }
 }
