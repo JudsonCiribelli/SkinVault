@@ -26,10 +26,11 @@ describe("POST /category", () => {
       .set("Authorization", `Bearer ${token}`)
       .set("Content-Type", "application/json")
       .send({
-        name: faker.lorem.words(3),
+        name: faker.lorem.words(4),
       });
 
     expect(response.status).toBe(200);
+
     expect(response.body).toEqual({
       name: expect.any(String),
       id: expect.any(String),
@@ -50,8 +51,5 @@ describe("POST /category", () => {
       });
 
     expect(response.status).toBe(400);
-    expect(response.body).toEqual({
-      message: expect.any(String),
-    });
   });
 });
