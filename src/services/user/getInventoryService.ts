@@ -15,7 +15,7 @@ class GetInventoryService {
       },
     });
 
-    return { inventory };
+    return inventory;
   }
 }
 export { GetInventoryService };
