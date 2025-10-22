@@ -35,10 +35,12 @@ describe("WebHookService", () => {
 
   beforeEach(async () => {
     vi.clearAllMocks();
+
     await prismaClient.transaction.deleteMany();
     await prismaClient.review.deleteMany();
     await prismaClient.order.deleteMany();
     await prismaClient.sellingItem.deleteMany();
+    await prismaClient.purchasedItem.deleteMany();
     await prismaClient.categoryNameSkin.deleteMany();
     await prismaClient.user.deleteMany();
   });
