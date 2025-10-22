@@ -19,16 +19,16 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/user.yaml#/PublicUserResponse"
+            $ref: "../../components/schemas/user/user.yaml#/PublicUserResponse"
     "401":
       description: Não autorizado.
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/common.yaml#/UnauthorizedError"
+            $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"
     "404":
       description: Usuário não encontrado.
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/common.yaml#/NotFoundError"
+            $ref: "../../components/schemas/user/common.yaml#/NotFoundError"

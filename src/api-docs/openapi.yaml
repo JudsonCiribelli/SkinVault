@@ -32,21 +32,21 @@ tags:
 paths:
   # --- Rotas de User e Auth ---
   /users:
-    $ref: "./paths/users.yaml" # (POST /users, GET /users)
+    $ref: "./paths/user/users.yaml" # (POST /users, GET /users)
   /session:
-    $ref: "./paths/session.yaml" # (POST /session)
+    $ref: "./paths/user/session.yaml" # (POST /session)
   /users/{id}:
-    $ref: "./paths/users_id.yaml" # (GET /users/:id)
+    $ref: "./paths/user/users_id.yaml" # (GET /users/:id)
 
   # --- Rotas de Inventory ---
   /user/inventory:
-    $ref: "./paths/user_inventory.yaml" # (GET /user/inventory)
+    $ref: "./paths/user/user_inventory.yaml" # (GET /user/inventory)
 
   # --- Rotas de Wallet ---
   /wallet/balance:
-    $ref: "./paths/wallet_balance.yaml" # (GET /wallet/balance)
+    $ref: "./paths/user/wallet_balance.yaml" # (GET /wallet/balance)
   /wallet/transaction:
-    $ref: "./paths/wallet_transaction.yaml" # (GET /wallet/transaction)
+    $ref: "./paths/user/wallet_transaction.yaml" # (GET /wallet/transaction)
 
 components:
   # --- Definição da Segurança ---
@@ -62,38 +62,38 @@ components:
   schemas:
     # Schemas de common.yaml
     UnauthorizedError:
-      $ref: "./components/schemas/common.yaml#/UnauthorizedError"
+      $ref: "./components/schemas/user/common.yaml#/UnauthorizedError"
     NotFoundError:
-      $ref: "./components/schemas/common.yaml#/NotFoundError"
+      $ref: "./components/schemas/user/common.yaml#/NotFoundError"
 
     # Schemas de user.yaml
     CreateUserRequest:
-      $ref: "./components/schemas/user.yaml#/CreateUserRequest"
+      $ref: "./components/schemas/user/user.yaml#/CreateUserRequest"
     UserResponse:
-      $ref: "./components/schemas/user.yaml#/UserResponse"
+      $ref: "./components/schemas/user/user.yaml#/UserResponse"
     PublicUserResponse:
-      $ref: "./components/schemas/user.yaml#/PublicUserResponse"
+      $ref: "./components/schemas/user/user.yaml#/PublicUserResponse"
     ErrorResponse:
-      $ref: "./components/schemas/user.yaml#/ErrorResponse"
+      $ref: "./components/schemas/user/user.yaml#/ErrorResponse"
 
     # Schemas de auth.yaml
     AuthRequest:
-      $ref: "./components/schemas/auth.yaml#/AuthRequest"
+      $ref: "./components/schemas/user/auth.yaml#/AuthRequest"
     AuthResponse:
-      $ref: "./components/schemas/auth.yaml#/AuthResponse"
+      $ref: "./components/schemas/user/auth.yaml#/AuthResponse"
     AuthError:
-      $ref: "./components/schemas/auth.yaml#/AuthError"
+      $ref: "./components/schemas/user/auth.yaml#/AuthError"
 
     # Schemas de inventory.yaml
     InventoryItem:
-      $ref: "./components/schemas/inventory.yaml#/InventoryItem"
+      $ref: "./components/schemas/user/inventory.yaml#/InventoryItem"
     InventoryResponse:
-      $ref: "./components/schemas/inventory.yaml#/InventoryResponse"
+      $ref: "./components/schemas/user/inventory.yaml#/InventoryResponse"
 
     # Schemas de wallet.yaml
     WalletBalanceResponse:
-      $ref: "./components/schemas/wallet.yaml#/WalletBalanceResponse"
+      $ref: "./components/schemas/user/wallet.yaml#/WalletBalanceResponse"
     TransactionItem:
-      $ref: "./components/schemas/wallet.yaml#/TransactionItem"
+      $ref: "./components/schemas/user/wallet.yaml#/TransactionItem"
     WalletTransactionResponse:
-      $ref: "./components/schemas/wallet.yaml#/WalletTransactionResponse"
+      $ref: "./components/schemas/user/wallet.yaml#/WalletTransactionResponse"

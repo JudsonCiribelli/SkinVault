@@ -8,20 +8,19 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/user.yaml#/CreateUserRequest"
+          $ref: "../../components/schemas/user/user.yaml#/CreateUserRequest"
   responses:
     "201":
       description: Usuário criado com sucesso.
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/user.yaml#/UserResponse"
+            $ref: "../../components/schemas/user/user.yaml#/UserResponse"
     "400":
       description: Erro na requisição (email já existe).
       content:
         application/json:
-          schema:
-            $ref: "../components/schemas/user.yaml#/ErrorResponse"
+          schema: $ref:"../../components/schemas/user/user.yaml#/ErrorResponse"
 
 get:
   summary: Busca o perfil do usuário autenticado
@@ -36,10 +35,10 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/user.yaml#/UserResponse"
+            $ref: "../../components/schemas/user/user.yaml#/UserResponse"
     "401":
       description: Não autorizado.
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/common.yaml#/UnauthorizedError"
+            $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"

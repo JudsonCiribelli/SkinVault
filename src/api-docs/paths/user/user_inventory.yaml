@@ -11,10 +11,10 @@ get:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/inventory.yaml#/InventoryResponse"
+            $ref: "../../components/schemas/user/inventory.yaml#/InventoryResponse"
     "401":
       description: Não autorizado.
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/common.yaml#/UnauthorizedError"
+            $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"

@@ -8,17 +8,17 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../components/schemas/auth.yaml#/AuthRequest"
+          $ref: "../../components/schemas/user/auth.yaml#/AuthRequest"
   responses:
     "200":
       description: Autenticado com sucesso.
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/auth.yaml#/AuthResponse"
+            $ref: "../../components/schemas/user/auth.yaml#/AuthResponse"
     "400":
       description: Credenciais inválidas.
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/auth.yaml#/AuthError"
+            $ref: "../../components/schemas/user/auth.yaml#/AuthError"
