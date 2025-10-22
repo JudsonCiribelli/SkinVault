@@ -92,7 +92,6 @@ router.post(
   new CreateCheckoutProController().handle
 );
 router.post("/webhook/mercado-pago", new WebHookController().handle);
-
 //REVIEW
 router.post(
   "/order/review",
