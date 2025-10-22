@@ -1,0 +1,35 @@
+post:
+  summary: Cria uma nova categoria
+  tags:
+    - Categories # Lembre-se de adicionar esta tag no seu openapi.yaml
+  description: |
+    Registra uma nova categoria principal no sistema.
+    As categorias são usadas para agrupar os tipos de itens (ex: "Rifles", "Pistolas", "Facas").
+    Esta é uma rota protegida e requer autenticação.
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/category/category.yaml#/CreateCategoryRequest"
+  responses:
+    "200": # Seu controller retorna 200, então documentamos 200
+      description: Categoria criada com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/category/category.yaml#/CategoryResponse"
+    "400":
+      description: Erro na requisição ("ex nome já existe ou é inválido").
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/category/category.yaml#/CategoryErrorResponse"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"

@@ -1,0 +1,29 @@
+CreateCategoryRequest:
+  type: object
+  required:
+    - name
+  properties:
+    name:
+      type: string
+      description: "Nome da nova categoria principal (ex: Rifles, Pistolas, Facas)."
+      example: "Rifles"
+
+CategoryResponse:
+  type: object
+  description: "A categoria que foi criada."
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: "a1b2c3d4-..."
+    name:
+      type: string
+      example: "Rifles"
+
+CategoryErrorResponse:
+  type: object
+  description: "Resposta de erro específica da criação de categoria."
+  properties:
+    message: # Seu controller retorna 'message' no erro
+      type: string
+      example: "Uma categoria com este nome já existe."

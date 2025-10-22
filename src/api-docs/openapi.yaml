@@ -11,24 +11,7 @@ servers:
 # 1. TAGS
 # Definimos todas as "categorias" da sua API
 # =======================================================
-tags:
-  - name: Users
-    description: Operações de Usuários e Autenticação
-  - name: Wallet
-    description: Operações da Carteira do Usuário (Saldo, Transações)
-  - name: Inventory
-    description: Operações do Inventário de Skins do Usuário
-  - name: Categories
-    description: Gerenciamento de Categorias e Itens (Skins Base)
-  - name: Marketplace
-    description: Operações de Venda (Colocar item à venda, Listar itens)
-  - name: Orders & Payments
-    description: Fluxo de compra, pagamentos e webhooks
 
-# =======================================================
-# 2. PATHS
-# O "índice" de todas as suas rotas
-# =======================================================
 paths:
   # --- Rotas de User e Auth ---
   /users:
@@ -47,6 +30,8 @@ paths:
     $ref: "./paths/user/wallet_balance.yaml" # (GET /wallet/balance)
   /wallet/transaction:
     $ref: "./paths/user/wallet_transaction.yaml" # (GET /wallet/transaction)
+  /category:
+    $ref: "./paths/category/category.yaml"
 
 components:
   # --- Definição da Segurança ---
@@ -97,3 +82,11 @@ components:
       $ref: "./components/schemas/user/wallet.yaml#/TransactionItem"
     WalletTransactionResponse:
       $ref: "./components/schemas/user/wallet.yaml#/WalletTransactionResponse"
+
+    #Category
+    CreateCategoryRequest:
+      $ref: "./components/schemas/category/category.yaml#/CreateCategoryRequest"
+    CategoryResponse:
+      $ref: "./components/schemas/category/category.yaml#/CategoryResponse"
+    CategoryErrorResponse:
+      $ref: "./components/schemas/category/category.yaml#/CategoryErrorResponse"
