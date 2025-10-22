@@ -1,7 +1,7 @@
 post:
   summary: Cria um novo usuário
   tags:
-    - Users
+    - User
   description: Registra um novo usuário no sistema.
   requestBody:
     required: true
@@ -17,8 +17,29 @@ post:
           schema:
             $ref: "../components/schemas/user.yaml#/UserResponse"
     "400":
-      description: Erro na requisição (ex email já existe).
+      description: Erro na requisição (email já existe).
       content:
         application/json:
           schema:
             $ref: "../components/schemas/user.yaml#/ErrorResponse"
+
+get:
+  summary: Busca o perfil do usuário autenticado
+  tags:
+    - User
+  description: Retorna os detalhes completos do usuário que está logado (baseado no token JWT).
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: Perfil do usuário retornado com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/user.yaml#/UserResponse"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/common.yaml#/UnauthorizedError"

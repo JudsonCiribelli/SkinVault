@@ -1,0 +1,36 @@
+WalletBalanceResponse:
+  type: object
+  properties:
+    balance:
+      type: string # O Prisma retorna Decimal como string
+      description: "Saldo atual da carteira em BRL."
+      example: "275.50"
+
+TransactionItem:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    type:
+      type: string
+      description: "Tipo da transação (ex: SALE_CREDIT, WITHDRAWAL)."
+      example: "SALE_CREDIT"
+    amount:
+      type: string
+      description: "Valor da transação (BRL)."
+      example: "45.00"
+    description:
+      type: string
+      example: "Crédito pela venda da skin: AK-47 | Asiimov"
+    createdAt:
+      type: string
+      format: date-time
+
+WalletTransactionResponse:
+  type: object
+  properties:
+    transactions:
+      type: array
+      items:
+        $ref: "#/TransactionItem"

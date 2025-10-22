@@ -1,0 +1,15 @@
+UnauthorizedError:
+  type: object
+  description: "Erro de autenticação. O token JWT está ausente, inválido ou expirado."
+  properties:
+    error:
+      type: string
+      example: "Token inválido ou ausente."
+
+NotFoundError:
+  type: object
+  description: "O recurso solicitado não foi encontrado."
+  properties:
+    error:
+      type: string
+      example: "Usuário não encontrado."

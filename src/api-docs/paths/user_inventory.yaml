@@ -1,0 +1,20 @@
+get:
+  summary: Busca o inventário de skins do usuário autenticado
+  tags:
+    - User
+  description: Retorna uma lista de todas as skins que o usuário logado possui (baseado nos 'PurchasedItems').
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: Inventário retornado com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/inventory.yaml#/InventoryResponse"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/common.yaml#/UnauthorizedError"

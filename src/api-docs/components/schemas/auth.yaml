@@ -1,0 +1,37 @@
+AuthRequest:
+  type: object
+  required:
+    - email
+    - password
+  properties:
+    email:
+      type: string
+      format: email
+      example: "judson.ciribelli@gmail.com"
+    password:
+      type: string
+      example: "123456"
+
+AuthResponse:
+  type: object
+  description: "Resposta de sucesso da autenticação."
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    email:
+      type: string
+      format: email
+    token:
+      type: string
+      description: "Token JWT Bearer para autenticação."
+      example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+AuthError:
+  type: object
+  properties:
+    error:
+      type: string
+      example: "Usuário ou senha inválidos."

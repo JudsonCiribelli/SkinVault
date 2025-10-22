@@ -1,21 +1,24 @@
-/session:
-  post:
-    summary: Autentica um usuário
-    tags:
-      - Users
-    description: Realiza o login de um usuário existente e retorna um token de autenticação.
-    requestBody:
-      required: true
+post:
+  summary: Autentica um usuário (Login)
+  tags:
+    - User
+  description: Gera um token JWT de autenticação para o usuário, permitindo acesso a rotas protegidas.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/auth.yaml#/AuthRequest"
+  responses:
+    "200":
+      description: Autenticado com sucesso.
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/user.yaml#/LoginRequest"
-    responses:
-      "200":
-        description: Login bem-sucedido.
-        content:
-          application/json:
-            schema:
-              $ref: "../components/schemas/user.yaml#/LoginResponse"
-      "400":
-        description: Email ou senha incorretos.
+            $ref: "../components/schemas/auth.yaml#/AuthResponse"
+    "400":
+      description: Credenciais inválidas.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/auth.yaml#/AuthError"

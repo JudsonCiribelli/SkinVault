@@ -1,4 +1,3 @@
-# src/api-docs/openapi.yaml
 openapi: 3.0.0
 info:
   title: Skinvault Marketplace API
@@ -7,16 +6,94 @@ info:
 servers:
   - url: http://localhost:3333
     description: Servidor de Desenvolvimento
+
+# =======================================================
+# 1. TAGS
+# Definimos todas as "categorias" da sua API
+# =======================================================
 tags:
   - name: Users
-    description: Operações relacionadas a usuários e autenticação
-  - name: Orders
-    description: Operações de compra e venda
+    description: Operações de Usuários e Autenticação
+  - name: Wallet
+    description: Operações da Carteira do Usuário (Saldo, Transações)
+  - name: Inventory
+    description: Operações do Inventário de Skins do Usuário
+  - name: Categories
+    description: Gerenciamento de Categorias e Itens (Skins Base)
+  - name: Marketplace
+    description: Operações de Venda (Colocar item à venda, Listar itens)
+  - name: Orders & Payments
+    description: Fluxo de compra, pagamentos e webhooks
 
+# =======================================================
+# 2. PATHS
+# O "índice" de todas as suas rotas
+# =======================================================
 paths:
+  # --- Rotas de User e Auth ---
   /users:
-    $ref: "./paths/users.yaml"
+    $ref: "./paths/users.yaml" # (POST /users, GET /users)
+  /session:
+    $ref: "./paths/session.yaml" # (POST /session)
+  /users/{id}:
+    $ref: "./paths/users_id.yaml" # (GET /users/:id)
+
+  # --- Rotas de Inventory ---
+  /user/inventory:
+    $ref: "./paths/user_inventory.yaml" # (GET /user/inventory)
+
+  # --- Rotas de Wallet ---
+  /wallet/balance:
+    $ref: "./paths/wallet_balance.yaml" # (GET /wallet/balance)
+  /wallet/transaction:
+    $ref: "./paths/wallet_transaction.yaml" # (GET /wallet/transaction)
 
 components:
+  # --- Definição da Segurança ---
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Token JWT Bearer obtido na rota /session."
+
+  # --- CORREÇÃO PRINCIPAL: O Mapa de Schemas ---
+  # Esta seção é um MAPA, não um $ref único.
   schemas:
-    $ref: "./components/schemas/user.yaml"
+    # Schemas de common.yaml
+    UnauthorizedError:
+      $ref: "./components/schemas/common.yaml#/UnauthorizedError"
+    NotFoundError:
+      $ref: "./components/schemas/common.yaml#/NotFoundError"
+
+    # Schemas de user.yaml
+    CreateUserRequest:
+      $ref: "./components/schemas/user.yaml#/CreateUserRequest"
+    UserResponse:
+      $ref: "./components/schemas/user.yaml#/UserResponse"
+    PublicUserResponse:
+      $ref: "./components/schemas/user.yaml#/PublicUserResponse"
+    ErrorResponse:
+      $ref: "./components/schemas/user.yaml#/ErrorResponse"
+
+    # Schemas de auth.yaml
+    AuthRequest:
+      $ref: "./components/schemas/auth.yaml#/AuthRequest"
+    AuthResponse:
+      $ref: "./components/schemas/auth.yaml#/AuthResponse"
+    AuthError:
+      $ref: "./components/schemas/auth.yaml#/AuthError"
+
+    # Schemas de inventory.yaml
+    InventoryItem:
+      $ref: "./components/schemas/inventory.yaml#/InventoryItem"
+    InventoryResponse:
+      $ref: "./components/schemas/inventory.yaml#/InventoryResponse"
+
+    # Schemas de wallet.yaml
+    WalletBalanceResponse:
+      $ref: "./components/schemas/wallet.yaml#/WalletBalanceResponse"
+    TransactionItem:
+      $ref: "./components/schemas/wallet.yaml#/TransactionItem"
+    WalletTransactionResponse:
+      $ref: "./components/schemas/wallet.yaml#/WalletTransactionResponse"

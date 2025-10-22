@@ -1,0 +1,33 @@
+InventoryItem:
+  type: object
+  description: "Uma única skin no inventário do usuário (baseado no PurchasedItem)."
+  properties:
+    id:
+      type: string
+      format: uuid
+      description: "O ID da skin (CategoryNameSkin)."
+    name:
+      type: string
+      example: "AK-47 | Asiimov"
+    imageUrl:
+      type: string
+      format: uri
+    wear:
+      type: string
+      example: "Field-Tested"
+    float:
+      type: string
+      example: "0.1834"
+    # Adicionamos o ID do 'PurchasedItem' para referência
+    purchaseId:
+      type: string
+      format: uuid
+      description: "O ID do registro de compra (PurchasedItem)."
+
+InventoryResponse:
+  type: object
+  properties:
+    inventory:
+      type: array
+      items:
+        $ref: "#/InventoryItem"

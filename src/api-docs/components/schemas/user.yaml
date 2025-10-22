@@ -20,6 +20,7 @@ CreateUserRequest:
 
 UserResponse:
   type: object
+  description: "Informações privadas do usuário autenticado."
   properties:
     id:
       type: string
@@ -29,6 +30,25 @@ UserResponse:
     email:
       type: string
       format: email
+
+PublicUserResponse:
+  type: object
+  description: "Informações públicas de um usuário."
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    averageRating:
+      type: number
+      format: float
+      description: "A nota média de vendedor do usuário."
+      example: 4.7
+    reviewCount:
+      type: integer
+      description: "O número total de avaliações recebidas."
+      example: 89
 
 ErrorResponse:
   type: object

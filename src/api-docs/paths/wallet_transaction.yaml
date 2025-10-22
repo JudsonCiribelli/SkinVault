@@ -1,0 +1,20 @@
+get:
+  summary: Busca o histórico de transações do usuário autenticado
+  tags:
+    - User
+  description: Retorna uma lista de todas as transações (créditos de venda, saques, etc.) do usuário logado, ordenadas da mais recente para a mais antiga.
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: Histórico de transações retornado com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/wallet.yaml#/WalletTransactionResponse"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/common.yaml#/UnauthorizedError"
