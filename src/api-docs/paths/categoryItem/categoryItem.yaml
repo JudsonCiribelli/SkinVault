@@ -1,0 +1,33 @@
+post:
+  summary: Cria um novo item dentro de uma categoria
+  tags:
+    - Categories
+  description: |
+    Registra um novo item (ex: "AK-47") e o associa a uma categoria principal (ex: "Rifles").
+    Requer autenticação.
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/categoryItem/categoryItem.yaml#/CreateCategoryItemRequest"
+  responses:
+    "200":
+      description: Item de categoria criado com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/categoryItem/categoryItem.yaml#/CategoryItemResponse"
+    "400":
+      description: Erro na requisição (ex Categoria 'pai' não encontrada, item já existe).
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/categoryItem/categoryItem.yaml#/CategoryItemErrorResponse"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"

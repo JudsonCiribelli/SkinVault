@@ -1,0 +1,15 @@
+GetAllSkinsResponse:
+  type: object
+  properties:
+    skins:
+      type: array
+      items:
+        $ref: "../categoryNameSkin/categoryNameSkin.yaml#/CategoryNameSkinResponse"
+
+SkinErrorResponse:
+  type: object
+  description: "Id invalido"
+  properties:
+    error:
+      type: string
+      example: "Error upload file"

@@ -1,0 +1,43 @@
+CategoryNameSkinResponse:
+  type: object
+  description: "A skin específica que foi criada."
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+      example: "Asiimov"
+    float:
+      type: string
+      example: "0.1834910"
+    price:
+      type: string
+      example: "350.50"
+    wear:
+      type: string
+      description: "Nível de desgaste da skin."
+      example: "Field-Tested"
+    banner:
+      type: string
+      description: "Nome do arquivo da imagem da skin salvo no servidor."
+      example: "abc123def456-skin-image.jpg"
+    sellerName:
+      type: string
+      example: "Judson Ciribelli"
+    ownerId:
+      type: string
+      format: uuid
+      description: "ID do usuário dono da skin."
+    categoryItemId:
+      type: string
+      format: uuid
+      description: "ID do 'Item' pai (ex: ID de 'AK-47')."
+
+SkinErrorResponse:
+  type: object
+  description: "Id invalido"
+  properties:
+    error:
+      type: string
+      example: "Error upload file"

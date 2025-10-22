@@ -1,0 +1,45 @@
+get:
+  summary: Lista as skins por ID do Item (CategoryItem)
+  tags:
+    - Categories
+  description: |
+    Retorna uma lista de todas as skins (CategoryNameSkin) que pertencem a um 'Item' (CategoryItem) específico.
+    Por exemplo, listar todas as skins do item "AK-47", passando o ID do "AK-47".
+    Requer autenticação.
+  security:
+    - bearerAuth: []
+
+  # --- Definição do Parâmetro de Query ---
+  parameters:
+    - in: query
+      name: categoryId # Corresponde a req.query.categoryId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: "O ID do 'Item' (ex: 'AK-47') cujas skins você deseja listar."
+      example: "b5c6d7e8-..."
+
+  responses:
+    "200":
+      description: Lista de skins retornada com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/categoryNameSkin/listItemsByCategoryId.yaml#/ListSkinsByItemResponse"
+    "400":
+      description: Erro na requisição ( ID inválido).
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/categoryNameSkin/listItemsByCategoryId.yaml#/SkinErrorResponse"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"
+    "404":
+      description: Categoria (Item) não encontrada.
+      content:
+        application/json:
+          $ref: "../../components/schemas/user/common.yaml#/NotFoundError"

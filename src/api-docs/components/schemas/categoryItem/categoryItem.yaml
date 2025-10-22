@@ -1,0 +1,41 @@
+CreateCategoryItemRequest:
+  type: object
+  required:
+    - id
+    - name
+  properties:
+    id:
+      type: string
+      format: uuid
+      description: "O ID da categoria 'pai' à qual este item pertence (ex: ID de 'Rifles')."
+      example: "a1b2c3d4-..."
+    name:
+      type: string
+      description: "Nome do novo item (ex: AK-47, Desert Eagle)."
+      example: "AK-47"
+
+CategoryItemResponse:
+  type: object
+  description: "O item de categoria que foi criado."
+  properties:
+    id:
+      type: string
+      format: uuid
+      description: "O ID do novo item criado (ex: 'AK-47')."
+      example: "b5c6d7e8-..."
+    name:
+      type: string
+      example: "AK-47"
+    categoryId:
+      type: string
+      format: uuid
+      description: "O ID da categoria 'pai'."
+      example: "a1b2c3d4-..."
+
+CategoryItemErrorResponse:
+  type: object
+  description: "Resposta de erro específica da criação de item."
+  properties:
+    message:
+      type: string
+      example: "Categoria não encontrada."

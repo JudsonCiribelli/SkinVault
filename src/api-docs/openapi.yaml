@@ -7,11 +7,6 @@ servers:
   - url: http://localhost:3333
     description: Servidor de Desenvolvimento
 
-# =======================================================
-# 1. TAGS
-# Definimos todas as "categorias" da sua API
-# =======================================================
-
 paths:
   # --- Rotas de User e Auth ---
   /users:
@@ -30,8 +25,24 @@ paths:
     $ref: "./paths/user/wallet_balance.yaml" # (GET /wallet/balance)
   /wallet/transaction:
     $ref: "./paths/user/wallet_transaction.yaml" # (GET /wallet/transaction)
+
+  # --- Category
   /category:
     $ref: "./paths/category/category.yaml"
+
+  # --- Category item
+  /category/categoryItem:
+    $ref: "./paths/categoryItem/categoryItem.yaml"
+
+  # --- Category Name skin
+  /category/categoryItem/categoryNameSkin:
+    $ref: "./paths/categoryNameSkin/categoryNameSkin.yaml"
+
+  /categoryNameSkin:
+    $ref: "./paths/categoryNameSkin/getAllSkins.yaml"
+
+  /categoryNameSkin/listItemsByCategoryId:
+    $ref: "./paths/categoryNameSkin/listItemsByCategoryId.yaml"
 
 components:
   # --- Definição da Segurança ---
@@ -90,3 +101,19 @@ components:
       $ref: "./components/schemas/category/category.yaml#/CategoryResponse"
     CategoryErrorResponse:
       $ref: "./components/schemas/category/category.yaml#/CategoryErrorResponse"
+    #Category Item
+    CreateCategoryItemRequest:
+      $ref: "./components/schemas/categoryItem/categoryItem.yaml#/CreateCategoryItemRequest"
+    CategoryItemResponse:
+      $ref: "./components/schemas/categoryItem/categoryItem.yaml#/CategoryItemResponse"
+    CategoryItemErrorResponse:
+      $ref: "./components/schemas/categoryItem/categoryItem.yaml#/CategoryItemErrorResponse"
+    #Category Name Skin
+    CategoryNameSkinResponse:
+      $ref: "./components/schemas/categoryNameSkin/categoryNameSkin.yaml#/CategoryNameSkinResponse"
+    SkinErrorResponse:
+      $ref: "./components/schemas/categoryNameSkin/categoryNameSkin.yaml#/SkinErrorResponse"
+    GetAllSkinsResponse:
+      $ref: "./components/schemas/categoryNameSkin/getAllSkins.yaml#/GetAllSkinsResponse"
+    ListSkinsByItemResponse:
+      $ref: "./components/schemas/categoryNameSkin/listItemsByCategoryId.yaml#/ListSkinsByItemResponse"

@@ -1,0 +1,83 @@
+post:
+  summary: Cria uma nova skin (CategoryNameSkin) com upload de imagem
+  tags:
+    - Categories
+  description: |
+    Registra uma nova skin específica (ex: "Asiimov") e a associa a um item (ex: "AK-47").
+    Esta rota é `multipart/form-data`, pois requer o upload de uma imagem ('file') junto com os dados da skin.
+    Requer autenticação.
+  security:
+    - bearerAuth: []
+
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required: # Defina quais campos de formulário são obrigatórios
+            - file
+            - name
+            - categoryItemId
+            - float
+            - price
+            - wear
+            - ownerId
+            - sellerName
+          properties:
+            # 1. O arquivo
+            file:
+              type: string
+              format: binary
+              description: "A imagem da skin (banner)."
+
+            # 2. Os campos de dados (baseado no seu controller)
+            name:
+              type: string
+              example: "Asiimov"
+            categoryItemId:
+              type: string
+              format: uuid
+              description: "ID do 'Item' pai (ex: ID de 'AK-47')."
+            float:
+              type: string
+              example: "0.1834910"
+            price:
+              type: string
+              example: "350.50"
+            wear:
+              type: string
+              example: "Field-Tested"
+            ownerId:
+              type: string
+              format: uuid
+              description: "ID do usuário dono da skin."
+            sellerName:
+              type: string
+              example: "Judson Ciribelli"
+        # Mapeamento para o upload de arquivo (opcional, mas bom)
+        encoding:
+          file:
+            contentType: "image/png, image/jpeg, image/webp"
+
+  responses:
+    "201": # Seu controller retorna 201 Created
+      description: Skin criada com sucesso.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              categoryNameSkin: # Seu controller retorna um objeto aninhado
+                $ref: "../../components/schemas/categoryNameSkin/categoryNameSkin.yaml#/CategoryNameSkinResponse"
+    "400":
+      description: Erro na requisição ( Faltando arquivo, dados inválidos, item pai não encontrado).
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/categoryNameSkin/categoryNameSkin.yaml#/SkinErrorResponse"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"
