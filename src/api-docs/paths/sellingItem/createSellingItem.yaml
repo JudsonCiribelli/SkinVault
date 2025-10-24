@@ -1,0 +1,34 @@
+post:
+  summary: Coloca uma skin à venda no marketplace
+  tags:
+    - Marketplace
+  description: |
+    Permite que um usuário autenticado liste uma skin do seu inventário para venda.
+    O sistema cria um 'SellingItem' (um anúncio) que outros usuários podem comprar.
+    Requer autenticação.
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/sellingItem/createSellingItem.yaml#/CreateSellingItemRequest"
+  responses:
+    "201":
+      description: Item listado para venda com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/sellingItem/createSellingItem.yaml#/CreateSellingItemResponse"
+    "400":
+      description: Erro na regra de negócio (Usuário não possui a skin, Skin já está à venda).
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/sellingItem/createSellingItem.yaml#/CreateSellingItemError"
+    "401":
+      description: Não autorizado (Token inválido ou ausente).
+      content:
+        application/json:
+          $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"

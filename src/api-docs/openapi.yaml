@@ -15,6 +15,8 @@ paths:
     $ref: "./paths/user/session.yaml" # (POST /session)
   /users/{id}:
     $ref: "./paths/user/users_id.yaml" # (GET /users/:id)
+  /user/items:
+    $ref: "./paths/sellingItem/createSellingItem.yaml"
 
   # --- Rotas de Inventory ---
   /user/inventory:
@@ -80,6 +82,14 @@ components:
       $ref: "./components/schemas/user/user.yaml#/PublicUserResponse"
     ErrorResponse:
       $ref: "./components/schemas/user/user.yaml#/ErrorResponse"
+    CreateSellingItemRequest:
+      $ref: "./components/schemas/sellingItem/createSellingItem.yaml#/CreateSellingItemRequest"
+    SellingItemResponseObject:
+      $ref: "./components/schemas/sellingItem/createSellingItem.yaml#/SellingItemResponseObject"
+    CreateSellingItemResponse:
+      $ref: "./components/schemas/sellingItem/createSellingItem.yaml#/CreateSellingItemResponse"
+    CreateSellingItemError:
+      $ref: "./components/schemas/sellingItem/createSellingItem.yaml#/CreateSellingItemError"
 
     # Schemas de auth.yaml
     AuthRequest:

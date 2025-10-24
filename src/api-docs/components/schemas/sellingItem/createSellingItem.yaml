@@ -1,0 +1,63 @@
+CreateSellingItemRequest:
+  type: object
+  required:
+    - userId
+    - skinId
+    - price
+  properties:
+    userId:
+      type: string
+      format: uuid
+      description: "O ID do usuário (vendedor) que está listando o item. (Nota: Idealmente, este campo deveria ser pego do token de autenticação)."
+      example: "uuid-do-usuario-logado"
+    skinId:
+      type: string
+      format: uuid
+      description: "O ID da skin (CategoryNameSkin) que o usuário possui e deseja vender."
+      example: "uuid-da-skin-no-inventario"
+    price:
+      type: number
+      format: float
+      description: "Preço de venda da skin (ex: 150.75)."
+      example: 150.75
+
+SellingItemResponseObject:
+  type: object
+  description: "O item de venda que foi criado."
+  properties:
+    id:
+      type: string
+      format: uuid
+      description: "O ID do novo 'SellingItem' (anúncio)."
+    price:
+      type: string
+      example: "150.75"
+    isActive:
+      type: boolean
+      description: "Se o item está ativamente listado."
+      example: true
+    userId:
+      type: string
+      format: uuid
+      description: "ID do vendedor."
+    skinId:
+      type: string
+      format: uuid
+      description: "ID da skin à venda."
+    createdAt:
+      type: string
+      format: date-time
+
+CreateSellingItemResponse:
+  type: object
+  properties:
+    sellingItems:
+      $ref: "#/SellingItemResponseObject"
+
+CreateSellingItemError:
+  type: object
+  description: "Resposta de erro."
+  properties:
+    error:
+      type: string
+      example: "Usuário não possui esta skin ou a skin já está à venda."
