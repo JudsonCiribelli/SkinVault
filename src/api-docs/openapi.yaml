@@ -44,6 +44,11 @@ paths:
   /categoryNameSkin/listItemsByCategoryId:
     $ref: "./paths/categoryNameSkin/listItemsByCategoryId.yaml"
 
+  /order:
+    $ref: "./paths/order/createOrder.yaml"
+  /order/purchase:
+    $ref: "./paths/order/createPurchase.yaml"
+
 components:
   # --- Definição da Segurança ---
   securitySchemes:
@@ -117,3 +122,14 @@ components:
       $ref: "./components/schemas/categoryNameSkin/getAllSkins.yaml#/GetAllSkinsResponse"
     ListSkinsByItemResponse:
       $ref: "./components/schemas/categoryNameSkin/listItemsByCategoryId.yaml#/ListSkinsByItemResponse"
+    #Order
+    CreateOrderRequest:
+      $ref: "./components/schemas/order/createOrder.yaml#/CreateOrderRequest"
+    CreateOrderResponse:
+      $ref: "./components/schemas/order/createOrder.yaml#/CreateOrderResponse"
+    CreateOrderError:
+      $ref: "./components/schemas/order/createOrder.yaml#/CreateOrderError"
+    OrderResponseObject:
+      $ref: "./components/schemas/order/createPurchase.yaml#/OrderResponseObject"
+    CreatePurchaseResponse:
+      $ref: "./components/schemas/order/createPurchase.yaml#/CreatePurchaseResponse"

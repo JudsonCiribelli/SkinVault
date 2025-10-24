@@ -1,0 +1,35 @@
+post:
+  summary: Cria uma nova ordem (Inicia a Compra)
+  tags:
+    - Orders & Payments
+  description: |
+    Inicia o processo de compra de um item.
+    O usuário autenticado (comprador) informa o ID do 'SellingItem' que deseja comprar.
+    A API cria uma ordem com status 'PENDING' e retorna um link de pagamento do Mercado Pago para o checkout.
+    Requer autenticação.
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/order/createOrder.yaml#/CreateOrderRequest"
+  responses:
+    "201": # Seu controller retorna 201 Created
+      description: Ordem criada com sucesso. Link de pagamento gerado.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/order/createOrder.yaml#/CreateOrderResponse"
+    "400":
+      description: Erro na regra de negócio (Item indisponível, Tentar comprar o próprio item).
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/order/createOrder.yaml#/CreateOrderError"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"

@@ -1,0 +1,40 @@
+CreateOrderRequest:
+  type: object
+  required:
+    - sellingItemId
+  properties:
+    sellingItemId:
+      type: string
+      format: uuid
+      description: "O ID do 'SellingItem' (o anúncio) que o usuário deseja comprar."
+      example: "a1b2c3d4-item-a-venda-e5f6"
+
+CreateOrderResponse:
+  type: object
+  properties:
+    order:
+      type: object
+      description: "O objeto da ordem criada, contendo o link de pagamento."
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "O ID da ordem criada."
+          example: "b5c6d7e8-ordem-criada-f9g1"
+        status:
+          type: string
+          description: "O status inicial da ordem."
+          example: "PENDING"
+        paymentLink:
+          type: string
+          format: uri
+          description: "O link de checkout do Mercado Pago para onde o usuário deve ser redirecionado."
+          example: "https://www.mercadopago.com.br/pagar/mock-link"
+
+CreateOrderError:
+  type: object
+  description: "Resposta de erro específica da criação de ordem."
+  properties:
+    error:
+      type: string
+      example: "Você não pode comprar seu próprio item."
