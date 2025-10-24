@@ -1,0 +1,58 @@
+CreatePaymentRequest:
+  type: object
+  required:
+    - sellingItemId
+    - buyerEmail
+    - price
+    - skinName
+    - backUrl
+    - orderId
+  properties:
+    sellingItemId:
+      type: string
+      format: uuid
+    buyerEmail:
+      type: string
+      format: email
+    price:
+      type: number
+      format: float
+      description: "Preço da skin. (Seu controller exige um 'number' no JSON, ex: 1397.31)"
+      example: 1397.31
+    skinName:
+      type: string
+      example: "AK-47 | Asiimov"
+    backUrl:
+      type: string
+      format: uri
+      description: "URL para onde o usuário será redirecionado após o pagamento."
+      example: "https://meu-site.com/minhas-compras"
+    orderId:
+      type: string
+      format: uuid
+      description: "O ID da Ordem (criada na rota POST /order) associada a este pagamento."
+
+CreatePaymentResponse:
+  type: object
+  properties:
+    checkout:
+      type: object
+      description: "Objeto de resposta do Mercado Pago contendo o link de pagamento."
+      properties:
+        id:
+          type: string
+          description: "O ID da preferência de pagamento do Mercado Pago."
+          example: "123456-abc-..."
+        init_point:
+          type: string
+          format: uri
+          description: "O link de checkout do Mercado Pago (paymentLink)."
+          example: "https://www.mercadopago.com.br/pagar/preferencia/..."
+
+CreatePaymentError:
+  type: object
+  description: "Resposta de erro específica da criação do pagamento."
+  properties:
+    error:
+      type: string
+      example: "Formato inválido para o campo 'price'. Deve ser um número."

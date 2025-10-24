@@ -1,0 +1,35 @@
+post:
+  summary: Gera o link de checkout do Mercado Pago
+  tags:
+    - Orders & Payments
+  description: |
+    Cria a preferência de pagamento no Mercado Pago e retorna o link de checkout.
+    Esta é a "Parte 2" do fluxo de compra, executada após a criação da Ordem (POST /order)
+    e antes do redirecionamento do usuário para o pagamento.
+    Requer autenticação.
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/payment/createCheckout.yaml#/CreatePaymentRequest"
+  responses:
+    "201":
+      description: Link de pagamento gerado com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/payment/createCheckout.yaml#/CreatePaymentResponse"
+    "400":
+      description: Erro na requisição ('price' não é um número, dados inválidos).
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/payment/createCheckout.yaml#/CreatePaymentError"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"

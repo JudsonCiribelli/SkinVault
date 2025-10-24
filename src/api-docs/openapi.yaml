@@ -49,6 +49,10 @@ paths:
   /order/purchase:
     $ref: "./paths/order/createPurchase.yaml"
 
+  #Payment
+  /payment/create:
+    $ref: "./paths/payment/createCheckout.yaml"
+
 components:
   # --- Definição da Segurança ---
   securitySchemes:
@@ -106,6 +110,7 @@ components:
       $ref: "./components/schemas/category/category.yaml#/CategoryResponse"
     CategoryErrorResponse:
       $ref: "./components/schemas/category/category.yaml#/CategoryErrorResponse"
+
     #Category Item
     CreateCategoryItemRequest:
       $ref: "./components/schemas/categoryItem/categoryItem.yaml#/CreateCategoryItemRequest"
@@ -113,6 +118,7 @@ components:
       $ref: "./components/schemas/categoryItem/categoryItem.yaml#/CategoryItemResponse"
     CategoryItemErrorResponse:
       $ref: "./components/schemas/categoryItem/categoryItem.yaml#/CategoryItemErrorResponse"
+
     #Category Name Skin
     CategoryNameSkinResponse:
       $ref: "./components/schemas/categoryNameSkin/categoryNameSkin.yaml#/CategoryNameSkinResponse"
@@ -122,6 +128,7 @@ components:
       $ref: "./components/schemas/categoryNameSkin/getAllSkins.yaml#/GetAllSkinsResponse"
     ListSkinsByItemResponse:
       $ref: "./components/schemas/categoryNameSkin/listItemsByCategoryId.yaml#/ListSkinsByItemResponse"
+
     #Order
     CreateOrderRequest:
       $ref: "./components/schemas/order/createOrder.yaml#/CreateOrderRequest"
@@ -133,3 +140,11 @@ components:
       $ref: "./components/schemas/order/createPurchase.yaml#/OrderResponseObject"
     CreatePurchaseResponse:
       $ref: "./components/schemas/order/createPurchase.yaml#/CreatePurchaseResponse"
+
+    #Payment
+    CreatePaymentRequest:
+      $ref: "./components/schemas/payment/createCheckout.yaml#/CreatePaymentRequest"
+    CreatePaymentResponse:
+      $ref: "./components/schemas/payment/createCheckout.yaml#/CreatePaymentResponse"
+    CreatePaymentError:
+      $ref: "./components/schemas/payment/createCheckout.yaml#/CreatePaymentError"
