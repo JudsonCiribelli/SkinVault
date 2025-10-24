@@ -55,6 +55,9 @@ paths:
   /payment/create:
     $ref: "./paths/payment/createCheckout.yaml"
 
+  /webhook/mercado-pago:
+    $ref: "./paths/webhook/webHook.yaml"
+
 components:
   # --- Definição da Segurança ---
   securitySchemes:
@@ -158,3 +161,10 @@ components:
       $ref: "./components/schemas/payment/createCheckout.yaml#/CreatePaymentResponse"
     CreatePaymentError:
       $ref: "./components/schemas/payment/createCheckout.yaml#/CreatePaymentError"
+    #WebHook
+    MercadoPagoNotification:
+      $ref: "./components/schemas/webhook/webHook.yaml#/MercadoPagoNotification"
+    WebhookSuccessResponse:
+      $ref: "./components/schemas/webhook/webHook.yaml#/WebhookSuccessResponse"
+    WebhookErrorResponse:
+      $ref: "./components/schemas/webhook/webHook.yaml#/WebhookErrorResponse"

@@ -1,0 +1,29 @@
+MercadoPagoNotification:
+  type: object
+  description: "O payload de notificação enviado pelo Mercado Pago."
+  properties:
+    type:
+      type: string
+      description: "O tipo de evento (ex: 'payment')."
+      example: "payment"
+    data:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "O ID do pagamento (paymentId)."
+          example: "123456789"
+
+WebhookSuccessResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: "Webhook processado com sucesso."
+
+WebhookErrorResponse:
+  type: object
+  properties:
+    error:
+      type: string
+      example: "Erro interno ao processar webhook."

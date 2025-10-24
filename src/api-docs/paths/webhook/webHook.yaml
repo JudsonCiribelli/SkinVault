@@ -1,0 +1,33 @@
+post:
+  summary: Webhook para notificações do Mercado Pago
+  tags:
+    - Orders & Payments
+  description: |
+    Endpoint de "callback" que recebe notificações assíncronas do Mercado Pago sobre o status dos pagamentos.
+    Este endpoint NÃO deve ser chamado pelo frontend. Ele é consumido apenas pelo serviço do Mercado Pago.
+    Quando um pagamento é 'approved', este endpoint aciona a lógica para finalizar a ordem e transferir a skin.
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/webhook/webHook.yaml#/MercadoPagoNotification"
+  responses:
+    "200":
+      description: |
+        Notificação recebida e processada com sucesso (ou ignorada propositalmente, ex: tipo != 'payment').
+        **Importante: Sempre retorne 200 OK para o Mercado Pago**, mesmo se houver um erro de negócio,
+        para evitar que eles tentem enviar a notificação novamente.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/webhook/webHook.yaml#/WebhookSuccessResponse"
+    "500":
+      description: |
+        Erro fatal interno no servidor ao tentar processar o webhook.
+        (Na prática, seu controller tenta sempre retornar 200, mas documentamos o 500 para o 'catch' do controller).
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/webhook/webHook.yaml#/WebhookErrorResponse"
