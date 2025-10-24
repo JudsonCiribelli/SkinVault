@@ -50,6 +50,8 @@ paths:
     $ref: "./paths/order/createOrder.yaml"
   /order/purchase:
     $ref: "./paths/order/createPurchase.yaml"
+  /order/{id}/review:
+    $ref: "./paths/review/createReview.yaml"
 
   #Payment
   /payment/create:
@@ -168,3 +170,13 @@ components:
       $ref: "./components/schemas/webhook/webHook.yaml#/WebhookSuccessResponse"
     WebhookErrorResponse:
       $ref: "./components/schemas/webhook/webHook.yaml#/WebhookErrorResponse"
+
+    #Review
+    CreateReviewRequest:
+      $ref: "./components/schemas/review/createReview.yaml#/CreateReviewRequest"
+    ReviewResponseObject:
+      $ref: "./components/schemas/review/createReview.yaml#/ReviewResponseObject"
+    CreateReviewResponse:
+      $ref: "./components/schemas/review/createReview.yaml#/CreateReviewResponse"
+    ReviewError:
+      $ref: "./components/schemas/review/createReview.yaml#/ReviewError"

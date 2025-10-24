@@ -1,0 +1,59 @@
+CreateReviewRequest:
+  type: object
+  required:
+    - rating
+  properties:
+    rating:
+      type: integer
+      format: int32
+      description: "A nota da avaliação, de 1 a 5."
+      example: 5
+      minimum: 1
+      maximum: 5
+    comment:
+      type: string
+      description: "Um comentário opcional sobre a transação."
+      example: "Vendedor ótimo, skin entregue rapidamente!"
+
+ReviewResponseObject:
+  type: object
+  description: "O objeto de review que foi criado."
+  properties:
+    id:
+      type: string
+      format: uuid
+    rating:
+      type: integer
+      example: 5
+    comment:
+      type: string
+      example: "Vendedor ótimo, skin entregue rapidamente!"
+    reviewerId:
+      type: string
+      format: uuid
+      description: "ID do usuário que fez a avaliação (o comprador)."
+    sellerId:
+      type: string
+      format: uuid
+      description: "ID do usuário que foi avaliado (o vendedor)."
+    orderId:
+      type: string
+      format: uuid
+      description: "ID do pedido que foi avaliado."
+    createdAt:
+      type: string
+      format: date-time
+
+CreateReviewResponse:
+  type: object
+  properties:
+    review:
+      $ref: "#/ReviewResponseObject"
+
+ReviewError:
+  type: object
+  description: "Resposta de erro específica da criação de review."
+  properties:
+    error:
+      type: string
+      example: "Você só pode avaliar um pedido que você comprou e foi finalizado."

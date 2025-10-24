@@ -1,0 +1,48 @@
+post:
+  summary: Cria uma avaliação (review) para um pedido
+  tags:
+    - Reviews
+  description: |
+    Permite que um usuário autenticado (comprador) deixe uma avaliação (nota e comentário)
+    para um pedido finalizado. O ID do pedido deve ser passado na URL.
+  security:
+    - bearerAuth: []
+  parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: "O ID da Ordem (Order) que está sendo avaliada."
+      example: "uuid-da-ordem-finalizada"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/review/createReview.yaml#/CreateReviewRequest"
+  responses:
+    "201":
+      description: Review criada com sucesso.
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/review/createReview.yaml#/CreateReviewResponse"
+    "400":
+      description: Erro na regra de negócio (Pedido não está finalizado, Usuário não é o comprador, Pedido já avaliado).
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/review/createReview.yaml#/ReviewError"
+    "401":
+      description: Não autorizado.
+      content:
+        application/json:
+          $ref: "../../components/schemas/user/common.yaml#/UnauthorizedError"
+    "404":
+      description: Pedido (Order) não encontrado.
+      content:
+        application/json:
+          $ref: "../../components/schemas/user/common.yaml#/NotFoundError"
