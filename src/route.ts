@@ -26,7 +26,7 @@ const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
 
 //USER / LOGIN
-router.get("/users", IsAuthenticated, new GetUserController().handle);
+router.get("/user", IsAuthenticated, new GetUserController().handle);
 router.get("/users/:id", IsAuthenticated, new GetUserByIdController().handle);
 router.get(
   "/user/inventory",
