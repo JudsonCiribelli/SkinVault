@@ -1,14 +1,16 @@
 import prismaClient from "../../lib/client.ts";
 
+interface GetUserProps {
+  userId: string;
+}
 class GetUserService {
-  async execute() {
-    const user = await prismaClient.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
+  async execute({ userId }: GetUserProps) {
+    const user = await prismaClient.user.findUnique({
+      where: {
+        id: userId,
       },
     });
+
     return user;
   }
 }
