@@ -8,7 +8,7 @@ class GetCategoryController {
     try {
       const category = await getCategoryService.execute();
 
-      return res.status(200).send({ category });
+      return res.status(200).send(category);
     } catch (error) {
       console.log(error);
 

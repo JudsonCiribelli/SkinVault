@@ -4,7 +4,7 @@ class GetCategoryService {
   async execute() {
     const category = await prismaClient.category.findMany({});
 
-    return { category };
+    return category;
   }
 }
 
