@@ -21,6 +21,7 @@ import { GetBalanceController } from "./controllers/user/getBalanceController.ts
 import { GetTransactionController } from "./controllers/user/getTransactionController.ts";
 import { CreateReviewController } from "./controllers/reviews/createReviewController.ts";
 import { GetUserByIdController } from "./controllers/user/getUserByIdController.ts";
+import { GetCategoryController } from "./controllers/category/getCategoryController.ts";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -48,6 +49,7 @@ router.get(
   new GetTransactionController().handle
 );
 // CATEGORY
+router.get("/category", new GetCategoryController().handle);
 router.post(
   "/category",
   IsAuthenticated,
